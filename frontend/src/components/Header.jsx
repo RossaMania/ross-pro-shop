@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar, Nav, Container, Badge, AccordionItem } from "react-bootstrap";
+import { Navbar, Nav, Container, Badge } from "react-bootstrap";
 import { FaShoppingCart, FaUser } from "react-icons/fa";
 import { LinkContainer } from "react-router-bootstrap";
 import logo from "../assets/logo.png";
