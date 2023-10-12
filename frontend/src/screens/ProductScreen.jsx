@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { Row, Col, Image, ListGroup, Card, Button } from "react-bootstrap";
+import { Row, Col, Image, ListGroup, Card, Button, ListGroupItem, Form } from "react-bootstrap";
 import Rating from "../components/Rating";
 import { useGetProductDetailsQuery } from "../slices/productsApiSlice";
 import Loader from '../components/Loader';
@@ -9,6 +9,8 @@ import Message from '../components/Message';
 
 const ProductScreen = () => {
   const { id: productId } = useParams();
+
+  const [qty, setQty] = useState(1);
 
   const { data: product, isLoading, error } = useGetProductDetailsQuery(productId);
 
@@ -64,6 +66,21 @@ const ProductScreen = () => {
                       </Col>
                     </Row>
                   </ListGroup.Item>
+                  {product.countInStock > 0 && (
+                    <ListGroupItem>
+                      <Row>
+                        <Col>Qty</Col>
+                        <Col>
+                          <Form.Control as="select" value={qty} onChange={(event) => setQty(Number(event.target.value))}>
+                          {[...Array(product.countInStock).keys()].map(i => (<option key={ i + 1} value={ i + 1}>
+                          {i + 1}
+                          </option>
+                          ))}
+                          </Form.Control>
+                        </Col>
+                      </Row>
+                    </ListGroupItem>
+                  )}
                   <ListGroup.Item>
                     <Button
                       className="btn-block"
