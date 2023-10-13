@@ -9,8 +9,16 @@ const CartScreen = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
+  const cart = useSelector((state) => state.cart);
+  const { cartItems } = cart;
+
   return (
-    <div>CartScreen</div>
+    <Row>
+      <Col md={8}>
+        <h1 style={{ marginBottom: "20px" }}>Shopping Cart</h1>
+        {}
+      </Col>
+    </Row>
   )
 }
 
