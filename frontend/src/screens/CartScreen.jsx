@@ -12,6 +12,7 @@ import {
 } from "react-bootstrap";
 import { FaTrash } from "react-icons/fa";
 import Message from "../components/Message";
+import { addToCart } from "../slices/cartSlice";
 
 const CartScreen = () => {
   const navigate = useNavigate();
@@ -19,6 +20,10 @@ const CartScreen = () => {
 
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
+
+  const addToCartHandler = async (product, qty) => {
+    dispatch(addToCart({...product, qty}))
+  }
 
   return (
     <Row>
@@ -33,7 +38,7 @@ const CartScreen = () => {
             {cartItems.map((item) => (
               <ListGroup.Item key={item._id}>
                 <Row>
-                  <Col md={2} style={{marginBottom: "5px"}}>
+                  <Col md={2} style={{marginBottom: "10px"}}>
                     <Image src={item.image} alt={item.name} fluid rounded />
                   </Col>
                   <Col md={3}>
@@ -47,7 +52,7 @@ const CartScreen = () => {
                     <Form.Control
                       as="select"
                       value={item.qty}
-                      //onChange={(event) => setQty(Number(event.target.value))}
+                      onChange={(event) => addToCartHandler(item, Number(event.target.value))}
                     >
                       {[...Array(item.countInStock).keys()].map((i) => (
                         <option key={i + 1} value={i + 1}>
