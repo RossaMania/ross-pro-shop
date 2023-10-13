@@ -67,6 +67,20 @@ const CartScreen = () => {
           </ListGroup>
         )}
       </Col>
+      <Col md={4}>
+      <Card>
+        <ListGroup variant="flush">
+        <ListGroup.Item>
+          <h2>
+            Subtotal ({ cartItems.reduce((accumulator, item) => accumulator + item.qty, 0)}) items
+          </h2>
+          <h3>
+            ${cartItems.reduce((accumulator, item) => accumulator + item.qty * item.price, 0)}
+          </h3>
+        </ListGroup.Item>
+        </ListGroup>
+      </Card>
+      </Col>
     </Row>
   );
 };
