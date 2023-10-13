@@ -33,7 +33,7 @@ const CartScreen = () => {
             {cartItems.map((item) => (
               <ListGroup.Item key={item._id}>
                 <Row>
-                  <Col md={2}>
+                  <Col md={2} style={{marginBottom: "5px"}}>
                     <Image src={item.image} alt={item.name} fluid rounded />
                   </Col>
                   <Col md={3}>
@@ -43,7 +43,6 @@ const CartScreen = () => {
                   <Col md={2}></Col>
                 </Row>
                 <Row>
-                  <Col md={2}>Qty</Col>
                   <Col md={2}>
                     <Form.Control
                       as="select"
@@ -56,6 +55,11 @@ const CartScreen = () => {
                         </option>
                       ))}
                     </Form.Control>
+                  </Col>
+                  <Col md={2}>
+                    <Button type="button" variant="light">
+                      <FaTrash />
+                    </Button>
                   </Col>
                 </Row>
               </ListGroup.Item>
