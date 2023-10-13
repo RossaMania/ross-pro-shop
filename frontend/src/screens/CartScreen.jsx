@@ -53,7 +53,6 @@ const CartScreen = () => {
                     <Link to={`/product/${item._id}`}>{item.name}</Link>
                   </Col>
                   <Col md={2}>${item.price}</Col>
-                  <Col md={2}></Col>
                 </Row>
                 <Row>
                   <Col md={2}>
@@ -87,9 +86,11 @@ const CartScreen = () => {
           <h2>
             Subtotal ({ cartItems.reduce((accumulator, item) => accumulator + item.qty, 0)}) items
           </h2>
-          <h3>
+          <h3>Total before tax:
             ${cartItems.reduce((accumulator, item) => accumulator + item.qty * item.price, 0).toFixed(2)}
           </h3>
+          <h4>Estimated tax to be collected:</h4>
+          <h3>${cartItems.reduce((accumulator, item) => accumulator + item.qty * item.price * 0.15, 0).toFixed(2)}</h3>
         </ListGroup.Item>
         <ListGroup.Item>
           <Button type="button" className="btn-block" disabled={cartItems.length === 0} onClick={checkOutHandler}>
