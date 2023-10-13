@@ -75,7 +75,7 @@ const CartScreen = () => {
             Subtotal ({ cartItems.reduce((accumulator, item) => accumulator + item.qty, 0)}) items
           </h2>
           <h3>
-            ${cartItems.reduce((accumulator, item) => accumulator + item.qty * item.price, 0)}
+            ${cartItems.reduce((accumulator, item) => accumulator + item.qty * item.price, 0).toFixed(2)}
           </h3>
         </ListGroup.Item>
         </ListGroup>
