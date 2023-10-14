@@ -13,6 +13,10 @@ connectDB(); // Connect to MongoDB
 
 const app = express();
 
+//Body parser middleware
+app.use(express.json()) //Allows us to accept JSON data in the body (req.body) of a request. Without this, req.body will be undefined.
+app.use(express.urlencoded({ extended: true })) //Allows us to accept form data in the body (extended: true allows us to accept nested objects).
+
 app.get("/", (req, res) => {
   res.send("API is running...");
 });
