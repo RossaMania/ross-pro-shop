@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 dotenv.config();
 import connectDB from "./config/db.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
@@ -17,6 +18,11 @@ const app = express();
 app.use(express.json()) //Allows us to accept JSON data in the body (req.body) of a request. Without this, req.body will be undefined.
 app.use(express.urlencoded({ extended: true })) //Allows us to accept form data in the body (extended: true allows us to accept nested objects).
 
+
+//Cookie parser middleware
+app.use(cookieParser());
+
+//Routes
 app.get("/", (req, res) => {
   res.send("API is running...");
 });
