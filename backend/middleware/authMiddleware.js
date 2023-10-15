@@ -3,7 +3,7 @@ import asyncHandler from "./asyncHandler";
 import User from "../models/userModel";
 
 // Protect routes function
-export const protect = asyncHandler(async (req, res, next) => {
+const protect = asyncHandler(async (req, res, next) => {
 
   let token;
 
@@ -31,3 +31,17 @@ export const protect = asyncHandler(async (req, res, next) => {
 
 
 // Admin middleware function
+// This function will be used in the userRoutes.js file to protect routes that only admins can access.
+// We will check the user's isAdmin property to see if that is true. If isAdmin is true, the user is an admin.
+
+const admin = (req, res, next) => {
+if (req.user && req.user.isAdmin) {
+  next();
+} else {
+  res.status(401);
+  throw new Error("Oops! Not authorized as an admin!");
+}
+};
+
+export { protect, admin };
+
