@@ -35,6 +35,10 @@ const LoginScreen = () => {
             onChange={(event) => setPassword(event.target.value)}
           ></Form.Control>
         </Form.Group>
+
+        <Button type="submit" variant="primary" className="mt-2">
+          Sign In
+        </Button>
       </Form>
     </FormContainer>
   );
