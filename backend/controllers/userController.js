@@ -100,8 +100,30 @@ const getUserProfile = asyncHandler(async (req, res) => {
 // @route   PUT /api/users/profile
 // @access  Private
 const updateUserProfile = asyncHandler(async (req, res) => {
-  res.send("Update user profile!");
-});
+  const user = await User.findById(req.user._id); // req.user._id is the user ID from the token.
+
+  if (user) {
+    user.name = req.body.name || user.name; // if req.body.name exists, set user.name to req.body.name. Otherwise, set user.name to user.name to keep it the same.
+    user.email = req.body.email || user.email; // if req.body.email exists, set user.email to req.body.email. Otherwise, set user.email to user.email to keep it the same.
+
+    if (req.body.password) {
+      user.passsword = req.body.password; // if req.body.password exists, set user.password to req.body.password. Otherwise, set user.password to user.password to keep it the same.
+    }
+
+    const updatedUser = await user.save(); // save updated user to database with new information from req.body or keep it the same if no new information was provided.
+
+    res.status(200).json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin
+    });
+    } else {
+      res.status(404);
+      throw new Error("Oops! User not found!");
+  }
+
+  });
 
 // @desc    Admin can get all users
 // @route   GET /api/users
