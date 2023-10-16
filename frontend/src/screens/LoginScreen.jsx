@@ -40,6 +40,11 @@ const LoginScreen = () => {
           Sign In
         </Button>
       </Form>
+      <Row className="py-3">
+        <Col>
+        New Customer? <Link to="/register">Register here!</Link>
+        </Col>
+      </Row>
     </FormContainer>
   );
 }
