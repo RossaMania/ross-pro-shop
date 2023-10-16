@@ -14,7 +14,7 @@ const authUser = asyncHandler(async (req, res) => {
 
     generateToken(res, user._id);
 
-    res.json({
+    res.status(200).json({
       _id: user._id,
       name: user.name,
       email: user.email,
@@ -79,8 +79,22 @@ const logoutUser = asyncHandler(async (req, res) => {
 // @route   GET /api/users/profile
 // @access  Private
 const getUserProfile = asyncHandler(async (req, res) => {
-  res.send("Get user profile!");
-});
+  const user = await User.findById(req.user._id) // req.user._id is the user ID from the token
+
+  // if user exists, send back user data in JSON format with 200 status code.
+  if (user) {
+    res.status(200).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin
+    });
+    } else {
+      res.status(404);
+      throw new Error("Oops! User not found!");
+    };
+    // if user doesn't exist, throw error and send back 404 status code and error message.
+  });
 
 // @desc    Update user profile
 // @route   PUT /api/users/profile
