@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import FormContainer from '../components/FormContainer';
+import FormContainer from "../components/FormContainer";
 import Loader from "../components/Loader";
 import { useLoginMutation } from "../slices/usersApiSlice.js";
 import { setCredentials } from "../slices/authSlice.js";
@@ -19,12 +19,12 @@ const LoginScreen = () => {
   // It is destructured as an array with the login function and a boolean indicating if the request is loading
   const [login, { isLoading }] = useLoginMutation();
 
-// Destructure userInfo from the auth state by using useSelector hook.
-// The useSelector takes in a function that passes in the state.
-// We want the auth part of the state because that is where the userInfo is.
+  // Destructure userInfo from the auth state by using useSelector hook.
+  // The useSelector takes in a function that passes in the state.
+  // We want the auth part of the state because that is where the userInfo is.
   const { userInfo } = useSelector((state) => state.auth);
 
-  // Destructure the search property from the useLocation hook. 
+  // Destructure the search property from the useLocation hook.
   const { search } = useLocation();
 
   // Create a new URLSearchParams object from the search property.
@@ -36,7 +36,6 @@ const LoginScreen = () => {
   // If there is, we want to use that as the redirect path. If not, we want to use the root path.
   const redirect = searchParams.get("redirect") || "/";
 
-
   // useEffect hook to check if the user is logged in.
   // If the user is logged in, we want to redirect them to the redirect path or the homepage.
   // We pass in the userInfo and the redirect variable as a dependency.
@@ -46,10 +45,25 @@ const LoginScreen = () => {
     if (userInfo) {
       navigate(redirect);
     }
-  }, [userInfo, redirect, navigate] );
+  }, [userInfo, redirect, navigate]);
 
-  const submitHandler = (event) => {
+  // submitHandler function to handle the form submission. Prevent the component from reloading by default with preventDefault.
+  // We want to call the login function from the useLoginMutation hook that's part of the usersApiSlice.
+  // We use a try-catch block for the response back. We await the email and password.
+  // The email and password is in the component state because it is coming in from the form as an object.
+  // We use unwrap which will extract that resolved value from the promise.
+  // Once we get the response we then want to dispatch the set credentials function. We send that userInfo, to the setCredentials function from the authSlice.
+  // This will then change the state by saving whoever the user is to local storage.
+  // If there's an error, we want to display the error message.
+  const submitHandler = async (event) => {
     event.preventDefault();
+    try {
+      const res = await login({ email, password }).unwrap();
+      dispatch(setCredentials({ ...res }));
+      navigate(redirect);
+    } catch (error) {
+      toast.error(error?.data?.message || error.error);
+    }
     console.log("Submitted!");
   };
 
@@ -87,6 +101,6 @@ const LoginScreen = () => {
       </Row>
     </FormContainer>
   );
-}
+};
 
-export default LoginScreen
+export default LoginScreen;
