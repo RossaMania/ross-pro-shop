@@ -13,8 +13,22 @@ const Header = () => {
   const { cartItems } = useSelector((state) => state.cart);
   const { userInfo } = useSelector((state) => state.auth);
 
-  const logoutHandler = () => {
-    console.log("Logged out!");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [logoutApiCall] = useLogoutMutation();
+
+  const logoutHandler = async () => {
+
+    try {
+      await logoutApiCall().unwrap();
+      dispatch(logout());
+      console.log("Logged out!");
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+    }
+
   }
 
   return (
