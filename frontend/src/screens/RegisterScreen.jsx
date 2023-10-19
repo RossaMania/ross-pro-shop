@@ -76,6 +76,15 @@ const RegisterScreen = () => {
     <FormContainer>
       <h1>Sign Up!</h1>
       <Form onSubmit={submitHandler}>
+        <Form.Group controlId="name" className="my-3">
+          <Form.Label>Name</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter name"
+            value={name}
+            onChange={(event) => setName(event.target.value)}
+          ></Form.Control>
+        </Form.Group>
         <Form.Group controlId="email" className="my-3">
           <Form.Label>Email Address</Form.Label>
           <Form.Control
@@ -92,6 +101,15 @@ const RegisterScreen = () => {
             placeholder="Enter password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
+          ></Form.Control>
+        </Form.Group>
+        <Form.Group controlId="confirmPassword" className="my-3">
+          <Form.Label>Confirm Password</Form.Label>
+          <Form.Control
+            type="password"
+            placeholder="Confirm password"
+            value={confirmPassword}
+            onChange={(event) => setConfirmPassword(event.target.value)}
           ></Form.Control>
         </Form.Group>
 
