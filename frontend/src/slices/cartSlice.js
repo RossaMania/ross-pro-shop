@@ -4,7 +4,7 @@ import { updateCart } from "../utils/cartUtils";
 //Initial state of the cart. If there is a cart (with items) in local storage, use that. If not, use an empty array.
 const initialState = localStorage.getItem("cart")
   ? JSON.parse(localStorage.getItem("cart"))
-  : { cartItems: [] };
+  : { cartItems: [], shippingAddress: {}, paymentMethod: "PayPal" };
 
 const cartSlice = createSlice({
   name: "cart",
