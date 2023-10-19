@@ -39,9 +39,17 @@ const cartSlice = createSlice({
       //Update the cart in local storage with that updateCart named export function in the /utils/cartUtils.js file.
       return updateCart(state);
     },
+
+    saveShippingAddress: (state, action) => {
+      //We update the shipping address in the state with the address that is passed in the action payload data.
+      state.shippingAddress = action.payload;
+
+      //Update the cart in local storage with the shipping address using that updateCart export function in the /utils/cartUtils.js file.
+      return updateCart(state);
+    }
   },
 });
 
-export const { addToCart, removeFromCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, saveShippingAddress } = cartSlice.actions;
 
 export default cartSlice.reducer;
