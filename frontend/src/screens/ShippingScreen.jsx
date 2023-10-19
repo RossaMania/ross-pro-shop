@@ -7,7 +7,7 @@ const ShippingScreen = () => {
   const [city, setCity] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [country, setCountry] = useState("");
-  
+
   return (
     <div>ShippingScreen</div>
   )
