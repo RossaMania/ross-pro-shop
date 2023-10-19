@@ -12,7 +12,7 @@ const PrivateRoute = () => {
   // If there is userInfo in localStorage, that means the user is logged in, and we render the Outlet component.
   // If there is no userInfo in localStorage, that means the user is not logged in, and we redirect to the /login page.
   // We use the Navigate component from react-router-dom to redirect to the /login page.
-  //We use the replace prop to replace any past history.
+  // We use the replace prop to replace any past history.
   return userInfo ? <Outlet /> : <Navigate to="/login" replace />;
 }
 
