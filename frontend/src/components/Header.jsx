@@ -1,10 +1,12 @@
+import { useNavigate } from "react-router-dom";
 import React from "react";
 import { Navbar, Nav, Container, Badge, NavDropdown } from "react-bootstrap";
 import { FaShoppingCart, FaUser } from "react-icons/fa";
 import { LinkContainer } from "react-router-bootstrap";
+import { useSelector, useDispatch } from "react-redux";
+import { useLogoutMutation } from "../slices/usersApiSlice.js";
+import { logout } from "../slices/authSlice.js";
 import logo from "../assets/logo.png";
-import { useSelector } from "react-redux";
-
 
 const Header = () => {
 
