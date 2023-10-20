@@ -7,7 +7,25 @@ const PaymentScreen = () => {
   const [paymentMethod, setPaymentMethod] = useState("PayPal");
 
   return (
-    <div>PaymentScreen</div>
+    <FormContainer>
+      <CheckoutSteps step1 step2 step3 />
+      <h1>Payment Method</h1>
+      <Form>
+        <Form.Group>
+          <Form.Label as="legend">Select Method</Form.Label>
+          <Col>
+            <Form.Check
+            type="radio"
+            className="my-2"
+            label="PayPal or Credit Card"
+            id="PayPal"
+            checked
+            onChange={(event) => setPaymentMethod(event.target.value)}
+            ></Form.Check>
+          </Col>
+        </Form.Group>
+      </Form>
+    </FormContainer>
   )
 }
 
