@@ -26,11 +26,19 @@ const PaymentScreen = () => {
     }
   }, [shippingAddress, navigate]);
 
+  //Dispatch the savePaymentMethod action so we change the payment method in the state and save to localStorage.
+  const submitHandler = (event) => {
+    event.preventDefault();
+    dispatch(savePaymentMethod(paymentMethod));
+    navigate("/placeorder");
+    console.log("Payment submitted!");
+  }
+
   return (
     <FormContainer>
       <CheckoutSteps step1 step2 step3 />
       <h1>Payment Method</h1>
-      <Form>
+      <Form onSubmit={submitHandler}>
         <Form.Group>
           <Form.Label as="legend">Select Method</Form.Label>
           <Col>
