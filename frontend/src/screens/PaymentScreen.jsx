@@ -24,6 +24,9 @@ const PaymentScreen = () => {
             ></Form.Check>
           </Col>
         </Form.Group>
+        <Button type="submit" variant="primary">
+          Continue
+        </Button>
       </Form>
     </FormContainer>
   )
