@@ -16,6 +16,8 @@ const PlaceOrderScreen = () => {
   // Use the useSelector hook to select the cart state.
   const cart = useSelector((state) => state.cart);
 
+  const [createOrder, {isLoading, error }] = useCreateOrderMutation();
+
   useEffect(() => {
     // If there is no address in the shippingAddress object of the cart state, then navigate to the shipping screen.
     // If there is no payment method in the paymentMethod object of the cart state, then navigate to the payment screen.
@@ -120,6 +122,12 @@ const PlaceOrderScreen = () => {
                   <Col>${cart.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
+
+              {/* This shows the error message if there is an error. */}
+              <ListGroup.Item>
+                {error && <Message variant="danger">{error}</Message>}
+              </ListGroup.Item>
+
               <ListGroup.Item>
               {/* This is the button that places the order when clicked. */}
                 <Button
@@ -130,6 +138,8 @@ const PlaceOrderScreen = () => {
                 >
                   Place Order
                 </Button>
+                {/* If it's loading, show the Loader component. */}
+                {isLoading && <Loader />}
               </ListGroup.Item>
             </ListGroup>
           </Card>
