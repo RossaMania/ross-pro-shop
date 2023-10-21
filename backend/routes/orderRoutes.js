@@ -17,6 +17,6 @@ router.route("/").post(protect, addOrderItems).get(protect, admin, getOrders); /
 router.route("/mine").get(protect, getMyOrders); //A regular user gets their own orders.
 router.route("/:id").get(protect, admin, getOrderById); //An Admin user gets order by ID.
 router.route("/:id/pay").put(protect, updateOrderToPaid); //A regular user updates order to paid.
-router.route("/:id/deliver").put(protect, admin, updateOrderToDelivered); //An Admin user updates order to delivered status.
+router.route("/:id/delivery").put(protect, admin, updateOrderToDelivered); //An Admin user updates order to delivered status.
 
 export default router;

@@ -13,14 +13,14 @@ const addOrderItems = asyncHandler(async (req, res) => {
 // @route   GET /api/orders/:id
 // @access  Private
 const getOrderById = asyncHandler(async (req, res) => {
-  res.send("Get my orders!");
+  res.send("Get order by ID!");
 });
 
 // @desc    Get order by ID.
 // @route   GET /api/orders/myorders
 // @access  Private
 const getMyOrders = asyncHandler(async (req, res) => {
-  res.send("Get order by ID!");
+  res.send("Get my orders!");
 });
 
 // @desc    Update order to paid. This is an admin user route.
