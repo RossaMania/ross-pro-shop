@@ -91,34 +91,42 @@ const PlaceOrderScreen = () => {
           </ListGroup>
         </Col>
         <Col md={4}>
+          {/* This Card shows the order summary for the order. */}
           <Card>
             <ListGroup variant="flush">
               <ListGroup.Item>
+                {/* h2 with Order Summary for the title. */}
                 <h2>Order Summary</h2>
               </ListGroup.Item>
               <ListGroup.Item>
+                {/* This shows the price of the total number of items in the cart. */}
                 <Row>
                   <Col>Items:</Col>
-                  <Col>{cart.itemsPrice}</Col>
+                  <Col>${cart.itemsPrice}</Col>
                 </Row>
+                {/* This shows the price of shipping. */}
                 <Row>
                   <Col>Shipping:</Col>
-                  <Col>{cart.shippingPrice}</Col>
+                  <Col>${cart.shippingPrice}</Col>
                 </Row>
+                {/* This shows the price of tax. */}
                 <Row>
                   <Col>Tax:</Col>
-                  <Col>{cart.taxPrice}</Col>
+                  <Col>${cart.taxPrice}</Col>
                 </Row>
+                {/* This shows the sum of the price of the total number of items in the cart, the shipping price, and the tax price. */}
                 <Row>
                   <Col>Grand Total:</Col>
-                  <Col>{cart.totalPrice}</Col>
+                  <Col>${cart.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
-                <Button type="button"
-                className="btn-block"
-                disabled={cart.cartItems.length === 0}
-                onClick={placeOrderHandler}
+              {/* This is the button that places the order when clicked. */}
+                <Button
+                  type="button"
+                  className="btn-block"
+                  disabled={cart.cartItems.length === 0}
+                  onClick={placeOrderHandler}
                 >
                   Place Order
                 </Button>
