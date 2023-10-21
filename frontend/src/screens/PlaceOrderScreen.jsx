@@ -32,7 +32,9 @@ const PlaceOrderScreen = () => {
         <Col md={8}>
           <ListGroup variant="flush">
             <ListGroup.Item>
+              {/* This shows the shipping information put in by the user for the order. */}
               <h2>Shipping</h2>
+              {/* The address is put in a paragraph tag so it shows all that information in one line, like a string */}
               <p>
                 <strong>Address: </strong>
                 {cart.shippingAddress?.address}, {cart.shippingAddress?.city},{" "}
@@ -41,36 +43,46 @@ const PlaceOrderScreen = () => {
               </p>
             </ListGroup.Item>
             <ListGroup.Item>
+              {/* This shows the payment method put in by the user for the order. */}
               <h2>Payment Method</h2>
               <strong>Method: </strong>
               {cart?.paymentMethod}
             </ListGroup.Item>
             <ListGroup.Item>
-            <h2>Order Items</h2>
-            {cart.cartItems.length === 0 ? (
-              <Message>Your cart is empty!</Message>
-            ) : (
-              <ListGroup variant="flush">
-                {cart.cartItems.map((item, index) => (
-                  <ListGroup.Item key={index}>
-                  <Row>
-                    <Col md={2}>
-                    <Image src={item.image} alt={item.name} fluid rounded />
-                    </Col>
-                    <Col>
-                      <Link to={`/products/${item.product}`}>
-                        {item.name}
-                      </Link>
-                    </Col>
-                    <Col md={4}>
-                    {item.qty} x ${item.price} = ${item.qty * item.price}
-                    </Col>
-                  </Row>
-                  </ListGroup.Item>
-                ))}
-              </ListGroup>
-            )}
-          </ListGroup.Item>
+              {/* This shows the order items put in cart by the user for the order. */}
+              {/* If there are items in the cartItems array we map them out, using item and index as parameters. The index is the key of the list. The item is the item in the list. */}
+              {/* The order items are put in a list group item so they show up in a list. */}
+              <h2>Order Items</h2>
+              {/* The order items are conditionally rendered. If there are no items in this cartItems array, then a message of "Your cart is empty!" is shown. */}
+              {cart.cartItems.length === 0 ? (
+                <Message>Your cart is empty!</Message>
+              ) : (
+                <ListGroup variant="flush">
+                  {cart.cartItems.map((item, index) => (
+                    <ListGroup.Item key={index}>
+                      <Row>
+                        <Col md={2}>
+                          <Image
+                            src={item.image}
+                            alt={item.name}
+                            fluid
+                            rounded
+                          />
+                        </Col>
+                        <Col>
+                          <Link to={`/products/${item.product}`}>
+                            {item.name}
+                          </Link>
+                        </Col>
+                        <Col md={4}>
+                          {item.qty} x ${item.price} = ${item.qty * item.price}
+                        </Col>
+                      </Row>
+                    </ListGroup.Item>
+                  ))}
+                </ListGroup>
+              )}
+            </ListGroup.Item>
           </ListGroup>
         </Col>
         <Col md={4}>Column!</Col>
