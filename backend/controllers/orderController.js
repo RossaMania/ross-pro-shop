@@ -52,7 +52,8 @@ const getOrderById = asyncHandler(async (req, res) => {
 // @route   GET /api/orders/myorders
 // @access  Private
 const getMyOrders = asyncHandler(async (req, res) => {
-  res.send("Get my orders!");
+  const orders = await Order.find({ user: req.user._id }); //Get all orders from the database where the user ID matches the user ID in the token.
+  res.json(orders); //Send the orders in JSON format.
 });
 
 // @desc    Update order to paid. This is an admin user route.
