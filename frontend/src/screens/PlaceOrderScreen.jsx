@@ -25,6 +25,11 @@ const PlaceOrderScreen = () => {
       navigate("/payment");
     }
   }, [cart.shippingAddress?.address, cart.paymentMethod, navigate]);
+
+  const placeOrderHandler = () => {
+    console.log("Order placed!");
+  }
+
   return (
     <div>
       <CheckoutSteps step1 step2 step3 step4 />
@@ -108,6 +113,15 @@ const PlaceOrderScreen = () => {
                   <Col>Grand Total:</Col>
                   <Col>{cart.totalPrice}</Col>
                 </Row>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <Button type="button"
+                className="btn-block"
+                disabled={cart.cartItems.length === 0}
+                onClick={placeOrderHandler}
+                >
+                  Place Order
+                </Button>
               </ListGroup.Item>
             </ListGroup>
           </Card>
