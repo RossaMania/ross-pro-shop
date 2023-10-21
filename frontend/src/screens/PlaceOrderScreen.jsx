@@ -13,6 +13,9 @@ const PlaceOrderScreen = () => {
   // useNavigate() is a hook that returns the navigate function which takes a string as an argument and navigates to the path.
   const navigate = useNavigate();
 
+  // useDispatch() returns the reference to the dispatch function from the Redux store.
+  const dispatch = useDispatch();
+
   // Use the useSelector hook to select the cart state.
   const cart = useSelector((state) => state.cart);
 
@@ -28,8 +31,24 @@ const PlaceOrderScreen = () => {
     }
   }, [cart.shippingAddress?.address, cart.paymentMethod, navigate]);
 
-  const placeOrderHandler = () => {
-    console.log("Order placed!");
+  const placeOrderHandler = async () => {
+    try {
+      const res = await createOrder({
+        orderItems: cart.cartItems,
+        shippingAddress: cart.shippingAddress,
+        paymentMethod: cart.paymentMethod,
+        itemsPrice: cart.itemsPrice,
+        shippingPrice: cart.shippingPrice,
+        taxPrice: cart.taxPrice,
+        totalPrice: cart.totalPrice
+      }).unwrap();
+      dispatch(clearCartItems());
+      navigate(`/order/${res._id}`);
+      console.log("Order placed!");
+    } catch (error) {
+      toast.error(error);
+      console.log(error);
+    }
   }
 
   return (
