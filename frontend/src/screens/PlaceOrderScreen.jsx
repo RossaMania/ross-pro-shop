@@ -85,7 +85,33 @@ const PlaceOrderScreen = () => {
             </ListGroup.Item>
           </ListGroup>
         </Col>
-        <Col md={4}>Column!</Col>
+        <Col md={4}>
+          <Card>
+            <ListGroup variant="flush">
+              <ListGroup.Item>
+                <h2>Order Summary</h2>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <Row>
+                  <Col>Items:</Col>
+                  <Col>{cart.itemsPrice}</Col>
+                </Row>
+                <Row>
+                  <Col>Shipping:</Col>
+                  <Col>{cart.shippingPrice}</Col>
+                </Row>
+                <Row>
+                  <Col>Tax:</Col>
+                  <Col>{cart.taxPrice}</Col>
+                </Row>
+                <Row>
+                  <Col>Grand Total:</Col>
+                  <Col>{cart.totalPrice}</Col>
+                </Row>
+              </ListGroup.Item>
+            </ListGroup>
+          </Card>
+        </Col>
       </Row>
     </div>
   );
