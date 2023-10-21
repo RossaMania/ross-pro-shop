@@ -45,7 +45,19 @@ if (orderItems && orderItems.length) {
 // @route   GET /api/orders/:id
 // @access  Private
 const getOrderById = asyncHandler(async (req, res) => {
-  res.send("Get order by ID!");
+  //Get the order by ID from the database. The id comes from the URL, so we use params.id.
+  //This brings up everything about the order from the Orders collection.
+  //Populate the user field with the user's name and email from the users collection.
+  const order = await Order.findById(req.params.id).populate("user", "name email");
+
+  if (order) {
+    //If the order exists, send the order data in JSON format.
+    res.status(200).json(order);
+  } else {
+    //If the order doesn't exist, throw an error.
+    res.status(404); //Not found
+    throw new Error("Oops! Order not found!");
+  }
 });
 
 // @desc    Get order by ID.
