@@ -58,6 +58,26 @@ const OrderScreen = () => {
                 <Message variant="danger">Not paid!</Message>
               )}
             </ListGroup.Item>
+            <ListGroup.Item>
+              <h2>Order Items</h2>
+              {order.orderItems.map((item, index) => (
+                <ListGroup.Item key={index}>
+                <Row>
+                  <Col md={2}>
+                  <Image src={item.image} alt={item.name} fluid rounded />
+                  </Col>
+                  <Col>
+                  <Link to={`/product/${item.product}`}>
+                    {item.name}
+                    </Link>
+                  </Col>
+                  <Col md={4}>
+                  {item.qty} x ${item.price} = ${item.qty * item.price}
+                  </Col>
+                </Row>
+                </ListGroup.Item>
+              ))}
+            </ListGroup.Item>
           </ListGroup>
         </Col>
         <Col md={4}>Column</Col>
