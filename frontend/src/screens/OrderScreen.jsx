@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
   Row,
@@ -9,9 +9,12 @@ import {
   Button,
   Card,
 } from "react-bootstrap";
+import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { useGetOrderDetailsQuery } from "../slices/ordersApiSlice";
+import { useGetOrderDetailsQuery, usePayOrderMutation, useGetPayPalClientIdQuery } from "../slices/ordersApiSlice";
 
 const OrderScreen = () => {
   const { id: orderId } = useParams(); // Get the id from the url.
@@ -24,6 +27,10 @@ const OrderScreen = () => {
     isLoading,
     error,
   } = useGetOrderDetailsQuery(orderId);
+
+  const [payOrder, { isLoading: loadingPayment }] = usePayOrderMutation();
+
+  const [{isPending }, paypalDispatch] = usePayPalScriptReducer();
 
   // First, if it's loading, then we show the Loader component. If there's an error, we show the Message component.
   //If there's no error and it's not loading, then we show the order details.
