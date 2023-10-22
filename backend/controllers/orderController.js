@@ -69,14 +69,32 @@ const getMyOrders = asyncHandler(async (req, res) => {
 });
 
 // @desc    Update order to paid. This is an admin user route.
-// @route   GET /api/orders/:id/pay
+// @route   PUT /api/orders/:id/pay
 // @access  Private/Admin
 const updateOrderToPaid = asyncHandler(async (req, res) => {
-  res.send("Update order to paid!");
+  const order = await Order.findById(req.params.id); //Get the order by ID from the database.
+
+  if (order) {
+    order.isPaid = true; //Set isPaid to true.
+    order.paidAt = Date.now(); //Set the paidAt date to now.
+    order.paymentResult = { //Set the paymentResult object.
+      id: req.body.id, //This comes from PayPal.
+      status: req.body.status, //This comes from PayPal.
+      update_time: req.body.update_time, //This comes from PayPal.
+      email_address: req.body.payer.email_address, //This comes from PayPal.
+    };
+
+    const updatedOrder = await order.save(); //Save the order to the database.
+
+    res.status(200).json(updatedOrder); //Send the updated order in JSON format.
+  } else {
+    res.status(404); //Not found
+    throw new Error("Oops! Order not found!");
+  }
 });
 
 // @desc    Update order to delivered. This is an admin user route.
-// @route   GET /api/orders/:id/deliver
+// @route   PUT /api/orders/:id/deliver
 // @access  Private/Admin
 const updateOrderToDelivered = asyncHandler(async (req, res) => {
   res.send("Update order to delivered!");
