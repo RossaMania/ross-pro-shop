@@ -28,9 +28,23 @@ const OrderScreen = () => {
     error,
   } = useGetOrderDetailsQuery(orderId);
 
+  // Destructure the payOrder mutation and the loadingPayment boolean from the usePayOrderMutation hook result.
+  // loadingPayment is true if the order is being paid for. loadingPayment is false if the order has been paid for.
   const [payOrder, { isLoading: loadingPayment }] = usePayOrderMutation();
 
-  const [{isPending }, paypalDispatch] = usePayPalScriptReducer();
+  // Destructure the isPending boolean from the usePayPalScriptReducer hook result.
+  // isPending is true if the PayPal SDK is loading. isPending is false if the PayPal SDK is loaded.
+  const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
+
+  // Get the PayPal client ID. Destructure the data, isLoading, and error properties from the useGetPayPalClientIdQuery hook result.
+  const {
+    data: paypal,
+    isLoading: loadingPayPal,
+    error: errorPayPal,
+  } = useGetPayPalClientIdQuery();
+
+  // Get the userInfo from the auth state. The userInfo has the user's name and email address.
+  const { userInfo } = useSelector((state) => state.auth);
 
   // First, if it's loading, then we show the Loader component. If there's an error, we show the Message component.
   //If there's no error and it's not loading, then we show the order details.
