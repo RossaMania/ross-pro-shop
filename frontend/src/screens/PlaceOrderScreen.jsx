@@ -6,8 +6,8 @@ import { toast } from "react-toastify";
 import CheckoutSteps from "../components/CheckoutSteps";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { useCreateOrderMutation } from "../slices/ordersApiSlice";
-import { clearCartItems } from "../slices/cartSlice";
+import { useCreateOrderMutation } from "../slices/ordersApiSlice.js";
+import { clearCartItems } from "../slices/cartSlice.js";
 
 const PlaceOrderScreen = () => {
   // useNavigate() is a hook that returns the navigate function which takes a string as an argument and navigates to the path.
@@ -19,7 +19,7 @@ const PlaceOrderScreen = () => {
   // Use the useSelector hook to select the cart state.
   const cart = useSelector((state) => state.cart);
 
-  const [createOrder, {isLoading, error }] = useCreateOrderMutation();
+  const [createOrder, { isLoading, error }] = useCreateOrderMutation();
 
   useEffect(() => {
     // If there is no address in the shippingAddress object of the cart state, then navigate to the shipping screen.
@@ -52,7 +52,7 @@ const PlaceOrderScreen = () => {
   }
 
   return (
-    <div>
+    <>
       <CheckoutSteps step1 step2 step3 step4 />
       <Row>
         <Col md={8}>
@@ -144,11 +144,13 @@ const PlaceOrderScreen = () => {
 
               {/* This shows the error message if there is an error. */}
               <ListGroup.Item>
-                {error && <Message variant="danger">{error}</Message>}
+                {error && (
+                  <Message variant="danger">{error.data.message}</Message>
+                )}
               </ListGroup.Item>
 
               <ListGroup.Item>
-              {/* This is the button that places the order when clicked. */}
+                {/* This is the button that places the order when clicked. */}
                 <Button
                   type="button"
                   className="btn-block"
@@ -164,7 +166,7 @@ const PlaceOrderScreen = () => {
           </Card>
         </Col>
       </Row>
-    </div>
+    </>
   );
 };
 

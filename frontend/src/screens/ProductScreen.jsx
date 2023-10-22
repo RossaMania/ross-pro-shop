@@ -14,7 +14,7 @@ const ProductScreen = () => {
 
   const dispatch = useDispatch();
 
-  const navigate = useNavigate
+  const navigate = useNavigate();
 
   const [qty, setQty] = useState(1);
 

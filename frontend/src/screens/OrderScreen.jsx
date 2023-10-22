@@ -22,12 +22,22 @@ const OrderScreen = () => {
     data: order,
     refetch,
     isLoading,
-    isError,
+    error,
   } = useGetOrderDetailsQuery(orderId);
 
-  console.log(order);
-
-  return <div>OrderScreen</div>;
+  return isLoading ? (
+    <Loader />
+  ) : error ? (
+    <Message variant="danger" />
+  ) : (
+    <>
+      <h1>Order {order._id}</h1>
+      <Row>
+        <Col md={8}>Column</Col>
+        <Col md={4}>Column</Col>
+      </Row>
+    </>
+  );
 };
 
 export default OrderScreen;
