@@ -9,7 +9,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
   const { orderItems, shippingAddress, paymentMethod, itemsPrice, taxPrice, shippingPrice, totalPrice, } = req.body; //Destructure req.body from the HTTP request.
 
 //Check for an order items array. If there is an order items array, we want to see if it's empty or not.
-if (orderItems && orderItems.length) {
+if (orderItems && orderItems.length === 0) {
   res.status(400); //Bad request
   throw new Error("Oops! No items in this order!"); //Throw an error if there are no order items.
 } else {
