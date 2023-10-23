@@ -22,7 +22,7 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
       keepUnusedDataFor: 5, //This will prevent the order details from being cached.
     }),
     payOrder: builder.mutation({
-      query: (orderId, details) => ({
+      query: ({ orderId, details }) => ({
         url: `${ORDERS_URL}/${orderId}/pay`,
         method: "PUT", //The method is PUT because we are updating the order to paid.
         body: { ...details },

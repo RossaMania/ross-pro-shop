@@ -69,6 +69,11 @@ const OrderScreen = () => {
     }
   }, [order, paypal, paypalDispatch, loadingPayPal, errorPayPal]);
 
+  const createOrder = () => {};
+  const onApprove = () => {}
+  const onApproveTest = () => {};
+  const onError = () => {};
+
   // First, if it's loading, then we show the Loader component. If there's an error, we show the Message component.
   //If there's no error and it's not loading, then we show the order details.
   return isLoading ? (
@@ -167,7 +172,27 @@ const OrderScreen = () => {
                   <Col>${order.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
-              {/* PAY ORDER PLACEHOLDER */}
+              {/* If the order is not paid for, then we show the PayPal buttons. */}
+              {!order.isPaid && (
+                <ListGroup.Item>
+                  {loadingPayPal && <Loader />}
+
+                  {isPending ? <Loader /> : (
+                    <div>
+                      <Button onClick={onApproveTest} style={{ marginBottom: "10px" }}>
+                        Test Pay Order
+                      </Button>
+                      <div>
+                        <PayPalButtons createOrder={createOrder}
+                        onApprove={onApprove}
+                        onError={onError}>
+
+                        </PayPalButtons>
+                      </div>
+                    </div>
+                  )}
+                </ListGroup.Item>
+              )}
               {/* MARK AS DELIVERED PLACEHOLDER */}
             </ListGroup>
           </Card>
