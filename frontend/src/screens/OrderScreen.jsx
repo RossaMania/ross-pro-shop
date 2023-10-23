@@ -46,6 +46,29 @@ const OrderScreen = () => {
   // Get the userInfo from the auth state. The userInfo has the user's name and email address.
   const { userInfo } = useSelector((state) => state.auth);
 
+// Use the useEffect hook to refetch the order details when the order is paid for.
+  useEffect(() => {
+    // If there is no error in PayPal, and PayPal is not loading, and the PayPal client ID exists, then load the PayPal SDK.
+    if (!errorPayPal && !loadingPayPal && paypal.clientId) {
+      const loadPayPalScript = async () => {
+        paypalDispatch({
+          type: "resetOptions",
+          value: {
+            "client-id": paypal.clientId,
+            currency: "USD",
+          }
+        });
+        paypalDispatch({ type: "setLoadingStatus", value: "pending" });
+      }
+      // If the order exists, and the order is not paid for, and the PayPal SDK is not already loaded, then load the PayPal SDK.
+      if (order && !order.isPaid) {
+        if (!window.paypal) {
+          loadPayPalScript();
+        }
+      }
+    }
+  }, [order, paypal, paypalDispatch, loadingPayPal, errorPayPal]);
+
   // First, if it's loading, then we show the Loader component. If there's an error, we show the Message component.
   //If there's no error and it's not loading, then we show the order details.
   return isLoading ? (
