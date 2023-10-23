@@ -28,8 +28,18 @@ const ProfileScreen = () => {
     }
   }, [userInfo]);
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
+    if (password !== confirmPassword) {
+      toast.error("Oops! Passwords do not match!");
+    } else {
+      try {
+        const res = await updateProfile({ _id:userInfo._id, name, email, password }).unwrap();
+      } catch (error) {
+        toast.error(error?.data?.message || error.message);
+        console.log(error);
+      }
+    }
     console.log("Submitted!");
   }
 
