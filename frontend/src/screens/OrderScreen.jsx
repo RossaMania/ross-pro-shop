@@ -69,10 +69,42 @@ const OrderScreen = () => {
     }
   }, [order, paypal, paypalDispatch, loadingPayPal, errorPayPal]);
 
-  const createOrder = () => {};
-  const onApprove = () => {}
-  const onApproveTest = () => {};
-  const onError = () => {};
+  const createOrder = (data, actions) => {
+    return actions.order.create({
+      purchase_units: [ //This is order data in an array that is sent to PayPal.
+        {
+          amount: {
+            value: order.totalPrice, //This is the total price of the order.
+          },
+        },
+      ],
+    }).then((orderId) => {
+      return orderId;
+    });
+  };
+
+  const onApprove = (data, actions) => {
+    return actions.order.capture().then(async function (details) { //This triggers PayPal to capture the funds from the transaction.
+      try {
+        await payOrder({ orderId, details }); //Pay for the order with the payOrder function from the usePayOrderMutation.
+        refetch(); //Once the order is paid for, refetch the order details.
+        toast.success("Yay! Payment successful!"); //Show a success message.
+      } catch (error) {
+        toast.error(error?.data?.message || error.message); //If there's an error, show the error message.
+      }
+    })
+  }
+
+  const onApproveTest = async () => {
+    await payOrder({ orderId, details: { payer: {} } }); //Pay for the order with the payOrder function from the usePayOrderMutation.
+        refetch(); //Once the order is paid for, refetch the order details.
+        toast.success("Yay! Payment successful!"); //Show a success message.
+  };
+
+  const onError = (error) => {
+    toast.error(error.message); //If there's an error, show the error message.
+  };
+
 
   // First, if it's loading, then we show the Loader component. If there's an error, we show the Message component.
   //If there's no error and it's not loading, then we show the order details.
