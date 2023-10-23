@@ -26,7 +26,7 @@ const ProfileScreen = () => {
       setName(userInfo.name);
       setEmail(userInfo.email);
     }
-  }, [userInfo]);
+  }, [userInfo, userInfo.name, userInfo.email]);
 
   const submitHandler = async (event) => {
     event.preventDefault();
@@ -35,6 +35,8 @@ const ProfileScreen = () => {
     } else {
       try {
         const res = await updateProfile({ _id:userInfo._id, name, email, password }).unwrap();
+        dispatch(setCredentials(res));
+        toast.success("Yay! Profile updated successfully!");
       } catch (error) {
         toast.error(error?.data?.message || error.message);
         console.log(error);
