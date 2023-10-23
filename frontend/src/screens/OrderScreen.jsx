@@ -5,8 +5,6 @@ import {
   Col,
   ListGroup,
   Image,
-  Form,
-  Button,
   Card,
 } from "react-bootstrap";
 import { toast } from "react-toastify";
