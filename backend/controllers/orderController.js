@@ -41,7 +41,7 @@ if (orderItems && orderItems.length === 0) {
 
 });
 
-// @desc    Get logged in user's orders.
+// @desc    Get order by ID.
 // @route   GET /api/orders/:id
 // @access  Private
 const getOrderById = asyncHandler(async (req, res) => {
@@ -60,7 +60,7 @@ const getOrderById = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Get order by ID.
+// @desc    Get logged in user's orders.
 // @route   GET /api/orders/myorders
 // @access  Private
 const getMyOrders = asyncHandler(async (req, res) => {
@@ -100,7 +100,7 @@ const updateOrderToDelivered = asyncHandler(async (req, res) => {
   res.send("Update order to delivered!");
 });
 
-// @desc    Update order to delivered. This is an admin user route.
+// @desc    Get all orders.
 // @route   GET /api/orders/:id/deliver
 // @access  Private/Admin
 const getOrders = asyncHandler(async (req, res) => {

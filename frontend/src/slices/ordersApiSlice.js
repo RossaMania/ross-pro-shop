@@ -26,15 +26,29 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
         url: `${ORDERS_URL}/${orderId}/pay`,
         method: "PUT", //The method is PUT because we are updating the order to paid.
         body: { ...details },
-      })
+      }),
     }),
     getPayPalClientId: builder.query({
       query: () => ({
         url: PAYPAL_URL,
+        method: "GET", //The method is GET because we are getting the info from PayPal. The method is GET by default.
+      }),
+      keepUnusedDataFor: 5,
+    }),
+    getMyOrders: builder.query({
+      query: () => ({
+        url: `${ORDERS_URL}/mine`,
+        method: "GET", //The method is GET because we are getting the orders. The method is GET by default.
       }),
       keepUnusedDataFor: 5,
     }),
   }),
 });
 
-export const { useCreateOrderMutation, useGetOrderDetailsQuery, usePayOrderMutation, useGetPayPalClientIdQuery } = ordersApiSlice;
+export const {
+  useCreateOrderMutation,
+  useGetOrderDetailsQuery,
+  usePayOrderMutation,
+  useGetPayPalClientIdQuery,
+  useGetMyOrdersQuery,
+} = ordersApiSlice;
