@@ -25,7 +25,25 @@ const ProductListScreen = () => {
       </Button>
       </Col>
     </Row>
-  </>;
-}
+    { isLoading ? <Loader /> : error ? <Message variant="danger">{error}</Message> : (
+      <>
+        <Table hover responsive className="table-sm">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>NAME</th>
+            <th>PRICE</th>
+            <th>CATEGORY</th>
+            <th>BRAND</th>
+            <th></th>
+          </tr>
+        </thead>
+        </Table>
+      </>
+    )}
+  </>
+
+  }
+
 
 export default ProductListScreen
