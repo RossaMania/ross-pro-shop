@@ -6,13 +6,14 @@ import {
   ListGroup,
   Image,
   Card,
+  Button,
 } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { useGetOrderDetailsQuery, usePayOrderMutation, useGetPayPalClientIdQuery } from "../slices/ordersApiSlice";
+import { useGetOrderDetailsQuery, usePayOrderMutation, useGetPayPalClientIdQuery, useDeliverOrderMutation } from "../slices/ordersApiSlice";
 
 const OrderScreen = () => {
   const { id: orderId } = useParams(); // Get the id from the url.
@@ -29,6 +30,8 @@ const OrderScreen = () => {
   // Destructure the payOrder mutation and the loadingPayment boolean from the usePayOrderMutation hook result.
   // loadingPayment is true if the order is being paid for. loadingPayment is false if the order has been paid for.
   const [payOrder, { isLoading: loadingPayment }] = usePayOrderMutation();
+
+  const [deliverOrder, {isLoading: loadingDeliver }] = useDeliverOrderMutation();
 
   // Destructure the isPending boolean from the usePayPalScriptReducer hook result.
   // isPending is true if the PayPal SDK is loading. isPending is false if the PayPal SDK is loaded.
@@ -102,6 +105,16 @@ const OrderScreen = () => {
   const onError = (error) => {
     toast.error(error.message); //If there's an error, show the error message.
   };
+
+const deliverOrderHandler = async () => {
+  try {
+    await deliverOrder(orderId); //Await on deliverOrder func from the useDeliverOrderMutation slice. Pass in the orderId as an argument.
+    refetch(); //Refetch the order details so the red changes to green.
+    toast.success("Yay! Order delivered!");
+  } catch (error) {
+    toast.error(error?.data?.message || error.message);
+  }
+}
 
 
   // First, if it's loading, then we show the Loader component. If there's an error, we show the Message component.
@@ -223,7 +236,14 @@ const OrderScreen = () => {
                   )}
                 </ListGroup.Item>
               )}
-              {/* MARK AS DELIVERED PLACEHOLDER */}
+              { loadingDeliver && <Loader />}
+              {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                <ListGroup.Item>
+                  <Button type="button" className="btn btn-block" onClick={deliverOrderHandler}>
+                    Mark As Delivered
+                  </Button>
+                </ListGroup.Item>
+              )}
             </ListGroup>
           </Card>
         </Col>
