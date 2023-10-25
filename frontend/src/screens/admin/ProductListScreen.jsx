@@ -9,13 +9,23 @@ import React from 'react'
 
 const ProductListScreen = () => {
 
-  const { data: products, isLoading, error } = useGetProductsQuery(); //Destructure the data, isLoading state, and error state from the useGetProductsQuery hook call.
+  //Destructure the data, isLoading state, and error state from the useGetProductsQuery hook call.
+  const { data: products, isLoading, error } = useGetProductsQuery();
 
-  console.log(products)
+  console.log(products);
 
-  return (
-    <div>ProductListScreen</div>
-  )
+  return <>
+    <Row className="align-items-center">
+      <Col>
+      <h1>Products</h1>
+      </Col>
+      <Col className="text-end">
+      <Button className="btn-sm p-1 m-3">
+      <FaEdit /> Create Product
+      </Button>
+      </Col>
+    </Row>
+  </>;
 }
 
 export default ProductListScreen
