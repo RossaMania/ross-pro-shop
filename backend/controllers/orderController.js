@@ -104,7 +104,9 @@ const updateOrderToDelivered = asyncHandler(async (req, res) => {
 // @route   GET /api/orders/:id/deliver
 // @access  Private/Admin
 const getOrders = asyncHandler(async (req, res) => {
-  res.send("Get all orders!");
+  //Get all orders from the database and populate the user field with the user's ID and name from the User collection.
+  const orders = await Order.find({}).populate("user", "id name");
+  res.status(200).json(orders); //Send the orders in JSON format with a 200 status code (OK).
 });
 
 export { addOrderItems, getOrderById, getMyOrders, updateOrderToPaid, updateOrderToDelivered, getOrders };
