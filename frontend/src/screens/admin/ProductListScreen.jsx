@@ -3,19 +3,35 @@ import { Table, Button, Row, Col } from "react-bootstrap";
 import { FaTimes, FaEdit, FaTrash } from "react-icons/fa";
 import Message from "../../components/Message";
 import Loader from "../../components/Loader";
-import { useGetProductsQuery } from "../../slices/productsApiSlice.js";
+import { useGetProductsQuery, useCreateProductMutation } from "../../slices/productsApiSlice.js";
+import { toast } from "react-toastify";
 
 import React from 'react'
 
 const ProductListScreen = () => {
 
   //Destructure the data, isLoading state, and error state from the useGetProductsQuery hook call.
-  const { data: products, isLoading, error } = useGetProductsQuery();
+  const { data: products, isLoading, error, refetch } = useGetProductsQuery();
+
+  const [createProduct, { isLoading: loadingCreation }] = useCreateProductMutation();
 
   console.log(products);
 
   const deleteHandler = (id) => {
     console.log("Deleted!", id)
+  }
+
+  const createProductHandler = async () => {
+    if (window.confirm("Hey! Are you sure you want to create a new product?")) {
+
+      try {
+        await createProduct();
+        refetch();
+      } catch (error) {
+        toast.error(error?.data?.message || error.message);
+      }
+
+    }
   }
 
   return (
@@ -25,11 +41,12 @@ const ProductListScreen = () => {
           <h1>Products</h1>
         </Col>
         <Col className="text-end">
-          <Button className="btn-sm p-1 m-3">
+          <Button className="btn-sm p-1 m-3" onClick={ createProductHandler }>
             <FaEdit /> Create Product
           </Button>
         </Col>
       </Row>
+      {loadingCreation && <Loader />}
       {isLoading ? (
         <Loader />
       ) : error ? (
