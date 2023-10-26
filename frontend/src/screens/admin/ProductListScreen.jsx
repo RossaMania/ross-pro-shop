@@ -14,6 +14,10 @@ const ProductListScreen = () => {
 
   console.log(products);
 
+  const deleteHandler = (id) => {
+    console.log("Deleted!", id)
+  }
+
   return (
     <>
       <Row className="align-items-center">
@@ -57,6 +61,9 @@ const ProductListScreen = () => {
                     <FaEdit />
                     </Button>
                   </LinkContainer>
+                  <Button variant="danger" className="btn-sm" onClick={() => deleteHandler(product._id)}>
+                    <FaTrash style={{color: "white"}}/>
+                  </Button>
                   </td>
                 </tr>
               ))}
