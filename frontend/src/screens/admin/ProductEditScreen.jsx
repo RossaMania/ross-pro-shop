@@ -23,7 +23,7 @@ const ProductEditScreen = () => {
 
   console.log(product)
 
-  const [updateProduct, { isLoading: loadingUpdate }] = useUpdateProductMutation();
+  const [updateProducts, { isLoading: loadingUpdate }] = useUpdateProductMutation();
 
   const navigate = useNavigate();
 
@@ -40,7 +40,21 @@ const ProductEditScreen = () => {
   }, [product]);
 
   return (
-    <div>ProductEditScreen</div>
+    <>
+      <Link to="/admin/productlist" className="btn btn-light my-3">
+        Go Back
+      </Link>
+      <FormContainer>
+      <h1>Edit Product</h1>
+      {loadingUpdate && <Loader />}
+
+      {isLoading ? <Loader /> : error ? <Message variant="danger">{error}</Message> : (
+        <Form>
+          Form Text
+        </Form>
+      )}
+      </FormContainer>
+    </>
   )
 }
 

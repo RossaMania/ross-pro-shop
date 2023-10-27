@@ -2,7 +2,7 @@ import express from "express";
 
 const router = express.Router();
 
-import { getProducts, getProductById, createProduct } from "../controllers/productController.js";
+import { getProducts, getProductById, createProduct, updateProducts } from "../controllers/productController.js";
 
 import { protect, admin } from "../middleware/authMiddleware.js";
 
