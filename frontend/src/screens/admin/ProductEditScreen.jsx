@@ -23,6 +23,22 @@ const ProductEditScreen = () => {
 
   console.log(product)
 
+  const [updateProduct, { isLoading: loadingUpdate }] = useUpdateProductMutation();
+
+  const navigate = useNavigate();
+
+  useEffect(() => { 
+    if (product) {
+      setName(product.name);
+      setPrice(product.price);
+      setImage(product.image);
+      setBrand(product.brand);
+      setCategory(product.category);
+      setCountInStock(product.countInStock);
+      setDescription(product.description);
+    }
+  }, [product]);
+
   return (
     <div>ProductEditScreen</div>
   )
