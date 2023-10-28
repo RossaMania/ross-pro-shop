@@ -151,7 +151,21 @@ const getUserByID = asyncHandler(async (req, res) => {
 // @route   DELETE /api/users/:id
 // @access  Private/Admin
 const deleteUser = asyncHandler(async (req, res) => {
-  res.send("Delete user!");
+  const user = await User.findById(req.params.id); // find user by ID
+
+  // if user exists and is not an admin, delete user and send back success message in JSON format with 200 status code.
+  // Or throw error and send back 400 status code and error message.
+  if (user) {
+    if (user.isAdmin) {
+      res.status(400);
+      throw new Error("Nope! Cannot delete an admin user!");
+    }
+    await User.deleteOne({ _id: user._id }); // delete user
+    res.status(200).json({ message: "User deleted successfully!" }); // send back success message in JSON format with 200 status code.
+  } else {
+    res.status(404); // if user doesn't exist, throw error and send back 404 status code and error message.
+    throw new Error("Oops! User not found!");
+  }
 });
 
 // @desc    Admin updates any user
