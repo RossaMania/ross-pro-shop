@@ -20,16 +20,18 @@ const ProductListScreen = () => {
   console.log(products);
 
   const deleteHandler = async (id) => {
+    //If the user confirms the deletion, then delete the product.
     if (window.confirm("Hey! Are you sure you want to delete this product?")) {
       try {
-        await deleteProduct(id);
-        console.log("Deleted!", id);
-        refetch();
+        await deleteProduct(id); //Delete the product.
+        console.log("Deleted!", id); //If the product is deleted, then log the deleted product's id to the console.
+        toast.success("Yay! Product deleted"); //If the product is deleted, then show a success toast message.
+        refetch(); //Refetch the products from the database to update the products list in the UI after the deletion.
       } catch (error) {
-        toast.error(error?.data?.message || error.message);
+        toast.error(error?.data?.message || error.message); //If there is an error, then show an error toast message with the error.
       }
+    }
   }
-}
 
   const createProductHandler = async () => {
     if (window.confirm("Hey! Are you sure you want to create a new product?")) {
