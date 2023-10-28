@@ -172,7 +172,28 @@ const deleteUser = asyncHandler(async (req, res) => {
 // @route   PUT /api/users/:id
 // @access  Private/Admin
 const updateUser = asyncHandler(async (req, res) => {
-  res.send("Update user!");
+  const user = await User.findById(req.params.id); // find user by ID
+
+  if (user) {
+    // if req.body.name exists, set user.name to req.body.name. Otherwise, set user.name to user.name to keep it the same.
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    user.isAdmin = Boolean(req.body.isAdmin); // convert req.body.isAdmin to boolean value.
+
+    // save updated user to database with new information from req.body or keep it the same if no new information was provided.
+    const updatedUser = await user.save();
+
+    // send back updated user data in JSON format with 200 status code.
+    res.status(200).json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+    });
+  } else {
+      res.status(404);
+      throw new Error("Oops! User not found!"); // if user doesn't exist, throw error and send back 404 status code and error message.
+  }
 });
 
 export { authUser, registerUser, logoutUser, getUserProfile, updateUserProfile, getUsers, getUserByID, deleteUser, updateUser };
