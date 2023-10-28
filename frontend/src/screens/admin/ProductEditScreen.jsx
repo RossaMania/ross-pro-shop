@@ -5,7 +5,7 @@ import Message from "../../components/Message";
 import Loader from "../../components/Loader";
 import FormContainer from "../../components/FormContainer";
 import { toast } from "react-toastify";
-import { useUpdateProductMutation, useGetProductDetailsQuery } from "../../slices/productsApiSlice.js";
+import { useUpdateProductMutation, useGetProductDetailsQuery, useUploadProductImageMutation } from "../../slices/productsApiSlice.js";
 
 const ProductEditScreen = () => {
 
@@ -24,6 +24,8 @@ const ProductEditScreen = () => {
   console.log(product)
 
   const [updateProduct, { isLoading: loadingUpdate }] = useUpdateProductMutation();
+
+  const [uploadProductImage, { isLoading: loadingUpload }] = useUploadProductImageMutation();
 
   const navigate = useNavigate();
 
@@ -60,6 +62,9 @@ const ProductEditScreen = () => {
     }
   };
 
+  const uploadFileHandler = async (event) => {
+    console.log(event.target.files[0]) // Console log of the file information that we want to upload.
+  }
   return (
     <>
       <Link to="/admin/productlist" className="btn btn-light my-3">
@@ -95,7 +100,19 @@ const ProductEditScreen = () => {
               ></Form.Control>
             </Form.Group>
 
-            {/* IMAGE INPUT PLACEHOLDER */}
+            <Form.Group controlId="image" className="my-2">
+            <Form.Label>Image</Form.Label>
+            <Form.Control
+            type="text"
+            placeholder="Enter image URL"
+            value={image}
+            onChange={(event) => setImage}></Form.Control>
+            <Form.Control
+            type="file"
+            label="Choose file"
+            onChange={uploadFileHandler}>
+            </Form.Control>
+            </Form.Group>
 
             <Form.Group controlId="brand" className="my-2">
               <Form.Label>Brand</Form.Label>
