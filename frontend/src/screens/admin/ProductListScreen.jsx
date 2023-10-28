@@ -3,7 +3,7 @@ import { Table, Button, Row, Col } from "react-bootstrap";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import Message from "../../components/Message";
 import Loader from "../../components/Loader";
-import { useGetProductsQuery, useCreateProductMutation } from "../../slices/productsApiSlice.js";
+import { useGetProductsQuery, useCreateProductMutation, useDeleteProductMutation } from "../../slices/productsApiSlice.js";
 import { toast } from "react-toastify";
 
 import React from 'react'
@@ -15,11 +15,21 @@ const ProductListScreen = () => {
 
   const [createProduct, { isLoading: loadingCreation }] = useCreateProductMutation();
 
+  const [deleteProduct, { isLoading: loadingDeletion }] = useDeleteProductMutation();
+
   console.log(products);
 
-  const deleteHandler = (id) => {
+  const deleteHandler = async (id) => {
+    if (window.confirm("Hey! Are you sure you want to delete this product?")) {
+      try {
+        await deleteProduct(id);
+        refetch();
+      } catch (error) {
+        toast.error(error?.data?.message || error.message);
+      }
     console.log("Deleted!", id)
   }
+}
 
   const createProductHandler = async () => {
     if (window.confirm("Hey! Are you sure you want to create a new product?")) {
@@ -92,6 +102,7 @@ const ProductListScreen = () => {
   );
 
   }
+
 
 
 export default ProductListScreen
