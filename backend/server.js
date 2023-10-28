@@ -1,3 +1,5 @@
+import path from "path"; // This is a built-in Node.js module that allows us to work with file paths.
+
 import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
@@ -36,6 +38,11 @@ app.use("/api/upload", uploadRoutes);
 
 app.get("/api/config/paypal", (req, res) => res.send({ clientId: process.env.PAYPAL_CLIENT_ID }));
 
+const __dirname = path.resolve(); // Set __dirname to the current directory name.
+
+// Make the uploads folder static so that we can access the images inside it.
+// Pass in uploads to app.use, make it static with express.static, then pass in location of that folder, /uploads, with path.join.
+app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 app.use(notFound);
 app.use(errorHandler);
 
