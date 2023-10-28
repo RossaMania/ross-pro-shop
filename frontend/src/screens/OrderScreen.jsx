@@ -16,6 +16,7 @@ import Loader from "../components/Loader";
 import { useGetOrderDetailsQuery, usePayOrderMutation, useGetPayPalClientIdQuery, useDeliverOrderMutation } from "../slices/ordersApiSlice.js";
 
 const OrderScreen = () => {
+
   const { id: orderId } = useParams(); // Get the id from the url.
 
   //Use the useGetOrderDetailsQuery hook to fetch the order details.
@@ -96,11 +97,12 @@ const OrderScreen = () => {
     })
   }
 
-  const onApproveTest = async () => {
-    await payOrder({ orderId, details: { payer: {} } }); //Pay for the order with the payOrder function from the usePayOrderMutation.
-        refetch(); //Once the order is paid for, refetch the order details.
-        toast.success("Yay! Payment successful!"); //Show a success message.
-  };
+  // THIS IS FOR TESTING ONLY.
+  // const onApproveTest = async () => {
+  //   await payOrder({ orderId, details: { payer: {} } }); //Pay for the order with the payOrder function from the usePayOrderMutation.
+  //       refetch(); //Once the order is paid for, refetch the order details.
+  //       toast.success("Yay! Payment successful!"); //Show a success message.
+  // };
 
   const onError = (error) => {
     toast.error(error.message); //If there's an error, show the error message.
@@ -218,7 +220,7 @@ const deliverOrderHandler = async () => {
               {/* If the order is not paid for, then we show the PayPal buttons. */}
               {!order.isPaid && (
                 <ListGroup.Item>
-                  {loadingPayPal && <Loader />}
+                  {loadingPayment && <Loader />}
 
                   {isPending ? <Loader /> : (
                     <div>

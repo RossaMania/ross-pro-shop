@@ -6,8 +6,9 @@ import Product from "../models/productModel.js";
 // @route   GET /api/products
 // @access  Public
 const getProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find({});
-  res.json(products);
+const products = await Product.find({}); //Find all products in the database.
+res.json(products); //Send the products in JSON format.
+
 });
 
 // @desc    Fetch single product by id
@@ -38,7 +39,7 @@ const createProduct = asyncHandler(async (req, res) => {
     countInStock: 0,
     numReviews: 0,
     description: "Sample description",
-  })
+  });
 
   //Save the product to the database and send the product data in JSON format.
   const createdProduct = await product.save();
@@ -48,8 +49,9 @@ const createProduct = asyncHandler(async (req, res) => {
 // @desc    Update a product
 // @route   PUT /api/products/:id
 // @access  Private/Admin
-const updateProducts = asyncHandler(async (req, res) => {
-  const { name, price, description, image, brand, category, countInStock } = req.body;
+const updateProduct = asyncHandler(async (req, res) => {
+  const { name, price, description, image, brand, category, countInStock } =
+    req.body;
 
   const product = await Product.findById(req.params.id);
 
@@ -64,13 +66,10 @@ const updateProducts = asyncHandler(async (req, res) => {
 
     const updatedProduct = await product.save(); //Save the updated product to the database.
     res.json(updatedProduct);
-
   } else {
     res.status(404); //That means the product is not found.
     throw new Error("Oops! Product not found!");
   }
-
 });
 
-
-export { getProducts, getProductById, createProduct, updateProducts };
+export { getProducts, getProductById, createProduct, updateProduct };

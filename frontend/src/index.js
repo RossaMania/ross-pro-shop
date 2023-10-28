@@ -1,5 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+// import "bootstrap/dist/css/bootstrap.min.css";
+import "./assets/styles/bootstrap.custom.css";
+import "./assets/styles/index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -9,11 +15,7 @@ import {
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { Provider } from "react-redux";
 import store from "./store";
-// import "bootstrap/dist/css/bootstrap.min.css";
-import "./assets/styles/bootstrap.custom.css";
-import "./assets/styles/index.css";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
+
 
 import HomeScreen from "./screens/HomeScreen";
 import ProductScreen from "./screens/ProductScreen";
