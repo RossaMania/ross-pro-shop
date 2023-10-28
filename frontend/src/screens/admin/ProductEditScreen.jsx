@@ -63,7 +63,17 @@ const ProductEditScreen = () => {
   };
 
   const uploadFileHandler = async (event) => {
-    console.log(event.target.files[0]) // Console log of the file information that we want to upload.
+    const formData = new FormData(); // Create a new FormData object to store the file information.
+    // Append the file to the FormData object with the name image (the same name as the field in the uploadProductImage route).
+    formData.append("image", event.target.files[0]);
+    try {
+      const res = await uploadProductImage(formData).unwrap(); // NOTE: here we need to unwrap the Promise to catch any rejection in our catch block
+      toast.success(res.message);
+      setImage(res.image); // Set the image to the path of the image that we uploaded.
+      console.log(event.target.files[0]); // Console log of the file information that we want to upload.
+    } catch (error) {
+      toast.error(error?.data?.message || error.error); // If there is an error, display the error message.
+    }
   }
   return (
     <>
