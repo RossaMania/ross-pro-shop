@@ -137,7 +137,14 @@ const getUsers = asyncHandler(async (req, res) => {
 // @route   GET /api/users/:id
 // @access  Private/Admin
 const getUserByID = asyncHandler(async (req, res) => {
-  res.send("Get user by ID!");
+  const user = await User.findById(req.params.id).select("-password"); // find user by ID and exclude password from the data sent back.
+
+  if (user) {
+    res.status(200).json(user); // if user exists, send back user data in JSON format with 200 status code.
+    } else {
+      res.status(404); // if user doesn't exist, throw error and send back 404 status code and error message.
+      throw new Error("Oops! User not found!");
+    }
 });
 
 // @desc    Admin deletes user
