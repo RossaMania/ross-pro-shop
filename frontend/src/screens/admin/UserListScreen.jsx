@@ -4,12 +4,15 @@ import { Table, Button } from "react-bootstrap";
 import { FaTrash, FaTimes, FaEdit, FaCheck } from "react-icons/fa";
 import Message from "../../components/Message";
 import Loader from "../../components/Loader";
-import { useGetUsersQuery } from "../../slices/usersApiSlice";
+import { toast} from "react-toastify";
+import { useGetUsersQuery, useDeleteUserMutation } from "../../slices/usersApiSlice";
 
 const UserListScreen = () => {
     //Desctructure the data, isLoading state, and error state from the useGetUsersQuery hook call.
   const { data: users, refetch, isLoading, error } = useGetUsersQuery();
   console.log(users); //Console log the data, called orders, from the useGetOrdersQuery hook call.
+
+  const [deleteUser, { isLoading: loadingDeletion }] = useDeleteUserMutation();
 
   const deleteHandler = (id) => {
     console.log("Delete!")
@@ -18,6 +21,7 @@ const UserListScreen = () => {
   return (
     <>
       <h1>Users</h1>
+      {loadingDeletion && <Loader />}
       {isLoading ? (
         <Loader />
       ) : error ? (
