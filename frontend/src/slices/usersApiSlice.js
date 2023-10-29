@@ -39,8 +39,21 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ["Users"], //This is the tag for the data that we are fetching from the backend API endpoint at USERS_URL.
       keepUnusedDataFor: 5, //This is the number of seconds to keep the data in the cache. If the data is not used within this time, then it will be removed from the cache.
-      })
-    })
-  });
+    }),
+    deleteUser: builder.mutation({
+      query: (userId) => ({
+        url: `${USERS_URL}/${userId}`,
+        method: "DELETE",
+      }),
+    }),
+  }),
+});
 
-export const { useLoginMutation, useLogoutMutation, useRegisterMutation, useProfileMutation, useGetUsersQuery } = usersApiSlice;
+export const {
+  useLoginMutation,
+  useLogoutMutation,
+  useRegisterMutation,
+  useProfileMutation,
+  useGetUsersQuery,
+  useDeleteUserMutation,
+} = usersApiSlice;
