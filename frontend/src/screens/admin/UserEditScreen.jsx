@@ -42,6 +42,15 @@ const UserEditScreen = () => {
 
   const submitHandler = async (event) => {
     event.preventDefault();
+    try {
+      await updateUser({ userId, name, email, isAdmin }); //Update the user details in the database.
+      toast.success("Yay! User updated successfully!"); //If the user is updated, then show a success toast message.
+      refetch(); //Refetch the users from the database to update the users list in the UI after the update.
+      navigate("/admin/userlist"); //Navigate to the user list screen.
+    } catch (error) {
+      toast.error(error?.data?.message || "Oops! Something went wrong!"); //If there is an error, then show an error toast message.
+      console.log(error)
+    }
     console.log("Submitted!");
   };
 
