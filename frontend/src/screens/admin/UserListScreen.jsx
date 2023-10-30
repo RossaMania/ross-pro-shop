@@ -14,8 +14,18 @@ const UserListScreen = () => {
 
   const [deleteUser, { isLoading: loadingDeletion }] = useDeleteUserMutation();
 
-  const deleteHandler = (id) => {
-    console.log("Delete!")
+  const deleteHandler = async (id) => {
+    //If the user confirms the deletion, then delete the user.
+    if (window.confirm("Hey! Are you sure you want to delete this user?")) {
+      try {
+        await deleteUser(id); // Delete the user by id.
+        toast.success("Yay! User deleted!"); //If the user is deleted, then show a success toast message.
+        refetch(); //Refetch the users from the database to update the users list in the UI after the deletion.
+      } catch (error) {
+        toast.error(error?.data?.message || error.message); //If there is an error, then show an error toast message with the error.
+      }
+    }
+    console.log("Deleted!");
   }
 
   return (
