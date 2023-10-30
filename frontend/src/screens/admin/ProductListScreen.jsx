@@ -91,7 +91,7 @@ const ProductListScreen = () => {
                   <td>
                   <LinkContainer to={`/admin/product/${product._id}/edit`}>
                     <Button variant="light" className="btn-sm mx-2">
-                    <FaEdit />
+                    <FaEdit style={{margin: "5px"}}/>
                     </Button>
                   </LinkContainer>
                   <Button variant="danger" className="btn-sm" onClick={() => deleteHandler(product._id)}>
