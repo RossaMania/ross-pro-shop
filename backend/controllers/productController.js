@@ -89,4 +89,55 @@ const deleteProduct = asyncHandler(async (req, res) => {
   }
 });
 
-export { getProducts, getProductById, createProduct, updateProduct, deleteProduct };
+// @desc    Create a new review
+// @route   POST /api/products/:id/reviews
+// @access  Private
+const createProductReview = asyncHandler(async (req, res) => {
+  const { rating, comment } = req.body; //Get the rating and comment from the request body.
+
+  const product = await Product.findById(req.params.id); //Find the product in the database using the id from the request parameters.
+
+  if (product) {
+    //If the product is found, then add the review to the product reviews array.
+    const alreadyReviewed = product.reviews.find(
+      //Check if the user has already reviewed the product by comparing the user id of the review with the user id of the logged in user.
+      (review) => review.user.toString() === req.user._id.toString()
+    );
+
+    // If the alreadyReviewed const is true, that means the user has already reviewed the product.
+    // If the user has already reviewed the product, then throw an error.
+    if (alreadyReviewed) {
+      res.status(400); //Bad request.
+      throw new Error("Oops! You already reviewed this!");
+    }
+    // If the alreadyReviewed const doesn't exist, that means the user has not already reviewed the product.
+    // If the user has not already reviewed the product, then add the review to the product reviews array.
+    const review = {
+      name: req.user.name,
+      rating: Number(rating),
+      comment,
+      user: req.user._id,
+    };
+
+    product.reviews.push(review); //Add the review to the product reviews array.
+
+    product.numReviews = product.reviews.length; //Update the number of reviews.
+
+    //Update the rating of the product by calculating the average rating of the product reviews.
+    product.rating =
+      product.reviews.reduce(
+        (accumulator, review) => accumulator + review.rating,
+        0
+      ) / product.reviews.length;
+
+    await product.save(); //Save the product to the database.
+
+    res.status(201).json({ message: "Yay! Review added!" });
+  } else {
+    res.status(404); //This means the product is not found.
+    throw new Error("Oops! Resource not found!");
+  }
+
+});
+
+export { getProducts, getProductById, createProduct, updateProduct, deleteProduct, createProductReview };
