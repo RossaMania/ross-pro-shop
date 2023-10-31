@@ -6,11 +6,17 @@ import Product from "../models/productModel.js";
 // @route   GET /api/products
 // @access  Public
 const getProducts = asyncHandler(async (req, res) => {
-  const pageSize = 2; //Set the page size to 2.
+  const pageSize = 8; //Set the page size to 8. This is how many products will be displayed per page.
   const page = Number(req.query.pageNumber) || 1; //Get the page number from the request query string or set it to 1.
-  const count = await Product.countDocuments(); //Count the number of products in the database.
 
-  const products = await Product.find({})
+  //Get the keyword from the request query string or set it to an empty string.
+  const keyword = req.query.keyword
+    ? { name: { $regex: req.query.keyword, $options: "i" } }
+    : {}; //Get the keyword from the request query string or set it to an empty string.
+
+  const count = await Product.countDocuments({...keyword}); //Count the number of products in the database.
+
+  const products = await Product.find({...keyword})
     .limit(pageSize)
     .skip(pageSize * (page - 1)); //Find all products in the database and limit the number of products to the page size and skip the number of products based on the page number.
   res.json({ products, page, pages: Math.ceil(count / pageSize) }); //Send the products along with the page number and the total number of pages in JSON format.
@@ -77,17 +83,15 @@ const updateProduct = asyncHandler(async (req, res) => {
   }
 });
 
-
 // @desc    Delete a product
 // @route   DELETE /api/products/:id
 // @access  Private/Admin
 const deleteProduct = asyncHandler(async (req, res) => {
-
   const product = await Product.findById(req.params.id);
 
   if (product) {
-   await Product.deleteOne({_id: product._id})
-   res.status(200).json({ message: "Yay! Product deleted!"});
+    await Product.deleteOne({ _id: product._id });
+    res.status(200).json({ message: "Yay! Product deleted!" });
   } else {
     res.status(404); //That means the product is not found.
     throw new Error("Oops! Product not found!");
@@ -142,7 +146,13 @@ const createProductReview = asyncHandler(async (req, res) => {
     res.status(404); //This means the product is not found.
     throw new Error("Oops! Resource not found!");
   }
-
 });
 
-export { getProducts, getProductById, createProduct, updateProduct, deleteProduct, createProductReview };
+export {
+  getProducts,
+  getProductById,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+  createProductReview,
+};
