@@ -6,9 +6,14 @@ import Product from "../models/productModel.js";
 // @route   GET /api/products
 // @access  Public
 const getProducts = asyncHandler(async (req, res) => {
-const products = await Product.find({}); //Find all products in the database.
-res.json(products); //Send the products in JSON format.
+  const pageSize = 2; //Set the page size to 2.
+  const page = Number(req.query.pageNumber) || 1; //Get the page number from the request query string or set it to 1.
+  const count = await Product.countDocuments(); //Count the number of products in the database.
 
+  const products = await Product.find({})
+    .limit(pageSize)
+    .skip(pageSize * (page - 1)); //Find all products in the database and limit the number of products to the page size and skip the number of products based on the page number.
+  res.json({ products, page, pages: Math.ceil(count / pageSize) }); //Send the products along with the page number and the total number of pages in JSON format.
 });
 
 // @desc    Fetch single product by id
