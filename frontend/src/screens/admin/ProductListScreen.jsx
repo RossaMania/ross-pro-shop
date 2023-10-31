@@ -3,24 +3,29 @@ import { Table, Button, Row, Col } from "react-bootstrap";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import Message from "../../components/Message";
 import Loader from "../../components/Loader";
-import { useGetProductsQuery, useCreateProductMutation, useDeleteProductMutation } from "../../slices/productsApiSlice.js";
+import {
+  useGetProductsQuery,
+  useCreateProductMutation,
+  useDeleteProductMutation,
+} from "../../slices/productsApiSlice.js";
 import { toast } from "react-toastify";
 
-import React from 'react'
+import React from "react";
 import { useParams } from "react-router-dom";
 
 const ProductListScreen = () => {
-
   const { pageNumber } = useParams();
 
   //Destructure the data, isLoading state, and error state from the useGetProductsQuery hook call.
-  const { data, isLoading, error, refetch } = useGetProductsQuery({pageNumber});
+  const { data, isLoading, error, refetch } = useGetProductsQuery({
+    pageNumber,
+  });
 
-  const [createProduct, { isLoading: loadingCreation }] = useCreateProductMutation();
+  const [createProduct, { isLoading: loadingCreation }] =
+    useCreateProductMutation();
 
-  const [deleteProduct, { isLoading: loadingDeletion }] = useDeleteProductMutation();
-
-  console.log(data.products);
+  const [deleteProduct, { isLoading: loadingDeletion }] =
+    useDeleteProductMutation();
 
   const deleteHandler = async (id) => {
     //If the user confirms the deletion, then delete the product.
@@ -34,11 +39,10 @@ const ProductListScreen = () => {
         toast.error(error?.data?.message || error.message); //If there is an error, then show an error toast message with the error.
       }
     }
-  }
+  };
 
   const createProductHandler = async () => {
     if (window.confirm("Hey! Are you sure you want to create a new product?")) {
-
       try {
         await createProduct();
         console.log("Created!");
@@ -46,9 +50,8 @@ const ProductListScreen = () => {
       } catch (error) {
         toast.error(error?.data?.message || error.message);
       }
-
     }
-  }
+  };
 
   return (
     <>
@@ -57,7 +60,7 @@ const ProductListScreen = () => {
           <h1>Products</h1>
         </Col>
         <Col className="text-end">
-          <Button className="btn-sm p-1 m-3" onClick={ createProductHandler }>
+          <Button className="btn-sm p-1 m-3" onClick={createProductHandler}>
             <FaEdit /> Create Product
           </Button>
         </Col>
@@ -92,14 +95,18 @@ const ProductListScreen = () => {
                   <td>{product.category}</td>
                   <td>{product.brand}</td>
                   <td>
-                  <LinkContainer to={`/admin/product/${product._id}/edit`}>
-                    <Button variant="light" className="btn-sm mx-2">
-                    <FaEdit style={{margin: "5px"}}/>
+                    <LinkContainer to={`/admin/product/${product._id}/edit`}>
+                      <Button variant="light" className="btn-sm mx-2">
+                        <FaEdit style={{ margin: "5px" }} />
+                      </Button>
+                    </LinkContainer>
+                    <Button
+                      variant="danger"
+                      className="btn-sm"
+                      onClick={() => deleteHandler(product._id)}
+                    >
+                      <FaTrash style={{ color: "white" }} />
                     </Button>
-                  </LinkContainer>
-                  <Button variant="danger" className="btn-sm" onClick={() => deleteHandler(product._id)}>
-                    <FaTrash style={{color: "white"}}/>
-                  </Button>
                   </td>
                 </tr>
               ))}
@@ -109,9 +116,6 @@ const ProductListScreen = () => {
       )}
     </>
   );
+};
 
-  }
-
-
-
-export default ProductListScreen
+export default ProductListScreen;
