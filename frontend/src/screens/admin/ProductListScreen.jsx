@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 
 import React from "react";
 import { useParams } from "react-router-dom";
+import Paginate from "../../components/Paginate";
 
 const ProductListScreen = () => {
   const { pageNumber } = useParams();
@@ -112,6 +113,7 @@ const ProductListScreen = () => {
               ))}
             </tbody>
           </Table>
+          <Paginate pages={data.pages} page={data.page} isAdmin={true} />
         </>
       )}
     </>
