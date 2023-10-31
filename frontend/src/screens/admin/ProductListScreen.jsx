@@ -7,17 +7,20 @@ import { useGetProductsQuery, useCreateProductMutation, useDeleteProductMutation
 import { toast } from "react-toastify";
 
 import React from 'react'
+import { useParams } from "react-router-dom";
 
 const ProductListScreen = () => {
 
+  const { pageNumber } = useParams();
+
   //Destructure the data, isLoading state, and error state from the useGetProductsQuery hook call.
-  const { data: products, isLoading, error, refetch } = useGetProductsQuery();
+  const { data, isLoading, error, refetch } = useGetProductsQuery({pageNumber});
 
   const [createProduct, { isLoading: loadingCreation }] = useCreateProductMutation();
 
   const [deleteProduct, { isLoading: loadingDeletion }] = useDeleteProductMutation();
 
-  console.log(products);
+  console.log(data.products);
 
   const deleteHandler = async (id) => {
     //If the user confirms the deletion, then delete the product.
@@ -81,7 +84,7 @@ const ProductListScreen = () => {
               </tr>
             </thead>
             <tbody>
-              {products.map((product) => (
+              {data.products.map((product) => (
                 <tr key={product._id}>
                   <td>{product._id}</td>
                   <td>{product.name}</td>
