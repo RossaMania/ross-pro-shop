@@ -3,10 +3,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Row, Col, Image, ListGroup, Card, Button, ListGroupItem, Form } from "react-bootstrap";
 import Rating from "../components/Rating";
-import { useGetProductDetailsQuery } from "../slices/productsApiSlice";
+import { useGetProductDetailsQuery, useCreateReviewMutation } from "../slices/productsApiSlice";
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from "react-toastify";
 import { addToCart } from '../slices/cartSlice';
 
 const ProductScreen = () => {
@@ -19,6 +20,8 @@ const ProductScreen = () => {
   const [qty, setQty] = useState(1);
 
   const { data: product, isLoading, error } = useGetProductDetailsQuery(productId);
+
+  const [createReview, { isLoading: loadingProductReview }] = useCreateReviewMutation();
 
     const addToCartHandler = () => {
       dispatch(addToCart({ ...product, qty }));
