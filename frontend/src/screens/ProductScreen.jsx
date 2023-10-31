@@ -19,9 +19,15 @@ const ProductScreen = () => {
 
   const [qty, setQty] = useState(1);
 
-  const { data: product, isLoading, error } = useGetProductDetailsQuery(productId);
+  const [rating, setRating] = useState(0);
+
+  const [comment, setComment] = useState("");
+
+  const { data: product, isLoading, refetch, error } = useGetProductDetailsQuery(productId);
 
   const [createReview, { isLoading: loadingProductReview }] = useCreateReviewMutation();
+
+  const { userInfo } = useSelector((state) => state.auth);
 
     const addToCartHandler = () => {
       dispatch(addToCart({ ...product, qty }));
@@ -108,6 +114,11 @@ const ProductScreen = () => {
                 </ListGroup>
               </Card>
             </Col>
+          </Row>
+          <Row className="review">
+          <Col md={6}>
+            <h2>Reviews</h2>
+          </Col>
           </Row>
         </>
       )}
