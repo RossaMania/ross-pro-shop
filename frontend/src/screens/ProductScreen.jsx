@@ -34,12 +34,26 @@ const ProductScreen = () => {
       navigate("/cart")
     };
 
+    const submitHandler = async (event) => {
+      event.preventDefault(); //Prevent the default form submission behavior.
+      try {
+        //Create the review in the database using the useCreateReviewMutation hook call and unwrap the promise returned by the createReview function.
+        await createReview({ productId, rating, comment }).unwrap();
+        refetch(); //Refetch the product details from the database to update the product details in the UI after the review is created.
+        toast.success("Yay! Review submitted successfully!"); //If the review is created, then show a success toast message.
+      } catch (error) {
+        toast.error(error?.data?.message || error.message); //If there is an error, then show an error toast message.
+      }
+    }
+
   return (
     <>
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant="danger">{error?.data?.message || error.message}</Message>
+        <Message variant="danger">
+          {error?.data?.message || error.message}
+        </Message>
       ) : (
         <>
           <Row>
@@ -91,11 +105,20 @@ const ProductScreen = () => {
                       <Row>
                         <Col>Qty</Col>
                         <Col>
-                          <Form.Control as="select" value={qty} onChange={(event) => setQty(Number(event.target.value))}>
-                          {[...Array(product.countInStock).keys()].map(i => (<option key={ i + 1} value={ i + 1}>
-                          {i + 1}
-                          </option>
-                          ))}
+                          <Form.Control
+                            as="select"
+                            value={qty}
+                            onChange={(event) =>
+                              setQty(Number(event.target.value))
+                            }
+                          >
+                            {[...Array(product.countInStock).keys()].map(
+                              (i) => (
+                                <option key={i + 1} value={i + 1}>
+                                  {i + 1}
+                                </option>
+                              )
+                            )}
                           </Form.Control>
                         </Col>
                       </Row>
@@ -116,59 +139,70 @@ const ProductScreen = () => {
             </Col>
           </Row>
           <Row className="review">
-          <Col md={6}>
-            <h2>Reviews</h2>
-            {product.reviews.length === 0 && <Message>No reviews!</Message>}
-            <ListGroup variant="flush">
-            {product.reviews.map(review => (
-              <ListGroup.Item key={review._id}>
-                <strong>{review.name}</strong>
-                <Rating value={review.rating} />
-                <p>{review.createdAt.substring(0, 10)}</p>
-                <p>{review.comment}</p>
-              </ListGroup.Item>
-            ))}
-            <ListGroup.Item>
-              <h2>Write A Review!</h2>
-              {loadingProductReview && <Loader />}
-              {userInfo ? (
-                <Form>
-                  <Form.Group controlId="rating" className="my-2">
-                  <Form.Label>Rating</Form.Label>
-                  <Form.Control
-                  as="select"
-                  value={rating}
-                  onChange={(event) => setRating(Number(event.target.value))}>
-                  <option value="">Select...</option>
-                  <option value="1">1 - Poor</option>
-                  <option value="2">2 - Fair</option>
-                  <option value="3">3 - Good</option>
-                  <option value="4">4 - Very Good!</option>
-                  <option value="5">5 - Excellent!</option>
-                  </Form.Control>
-                  </Form.Group>
-                  <Form.Group controlId="comment" className="my-2">
-                  <Form.Label>Comment</Form.Label>
-                  <Form.Control
-                  as="textarea"
-                  row="3"
-                  value={comment}
-                  onChange={(event) => setComment(event.target.value)}></Form.Control>
-                  </Form.Group>
-                  <Button disabled={loadingProductReview}
-                  type="submit"
-                  variant="primary">
-                  Submit
-                  </Button>
-                </Form>
-              ) : (
-                <Message>
-                  Please <Link to="/login">sign in</Link> to write a review!
-                </Message>
-              )}
-            </ListGroup.Item>
-            </ListGroup>
-          </Col>
+            <Col md={6}>
+              <h2>Reviews</h2>
+              {/* If there are no reviews on the product page, then show a message saying "No reviews!". */}
+              {product.reviews.length === 0 && <Message>No reviews!</Message>}
+              <ListGroup variant="flush">
+                {/* If there are reviews on the product page, then show the reviews. */}
+                {product.reviews.map((review) => (
+                  <ListGroup.Item key={review._id}>
+                    <strong>{review.name}</strong>
+                    <Rating value={review.rating} />
+                    <p>{review.createdAt.substring(0, 10)}</p>
+                    <p>{review.comment}</p>
+                  </ListGroup.Item>
+                ))}
+                <ListGroup.Item>
+                  <h2>Write A Review!</h2>
+                  {/* If it's loading, then show the loader. */}
+                  {loadingProductReview && <Loader />}
+                  {/* If the user is logged in, then show the form to rate a product and write a review. */}
+                  {userInfo ? (
+                    <Form onSubmit={submitHandler}>
+                      <Form.Group controlId="rating" className="my-2">
+                        <Form.Label>Rating</Form.Label>
+                        <Form.Control
+                          as="select"
+                          value={rating}
+                          onChange={(event) =>
+                            setRating(Number(event.target.value))
+                          }
+                        >
+                          <option value="">Select...</option>
+                          <option value="1">1 - Poor</option>
+                          <option value="2">2 - Fair</option>
+                          <option value="3">3 - Good</option>
+                          <option value="4">4 - Very Good!</option>
+                          <option value="5">5 - Excellent!</option>
+                        </Form.Control>
+                      </Form.Group>
+                      <Form.Group controlId="comment" className="my-2">
+                        <Form.Label>Comment</Form.Label>
+                        <Form.Control
+                          as="textarea"
+                          row="3"
+                          value={comment}
+                          onChange={(event) => setComment(event.target.value)}
+                        ></Form.Control>
+                      </Form.Group>
+                      <Button
+                        disabled={loadingProductReview}
+                        type="submit"
+                        variant="primary"
+                      >
+                        Submit
+                      </Button>
+                    </Form>
+                  ) : (
+                    // If the user is not logged in, then show a message saying "Please sign in to write a review!".
+                    <Message>
+                      Please <Link to="/login">sign in</Link> to write a review!
+                    </Message>
+                  )}
+                </ListGroup.Item>
+              </ListGroup>
+            </Col>
           </Row>
         </>
       )}
