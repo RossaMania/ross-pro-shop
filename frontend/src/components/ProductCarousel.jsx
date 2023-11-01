@@ -9,8 +9,10 @@ const ProductCarousel = () => {
 
   const { data: products, isLoading, error } = useGetTopProductsQuery()
 
-  return (
-    <div>ProductCarousel</div>
+  return isLoading ? <Loader /> : error ? <Message>{error?.message}</Message> : (
+    <Carousel pause="hover" className="bg-primary mb-4">
+    Carousel Placeholder
+    </Carousel>
   )
 }
 
