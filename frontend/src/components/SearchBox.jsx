@@ -10,6 +10,7 @@ const SearchBox = () => {
   const submitHandler = (event) => {
     event.preventDefault();
     if (keyword.trim()) {
+      setKeyword("");
       navigate(`/search/${keyword}`);
       console.log("Submitted search!");
     } else {
