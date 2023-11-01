@@ -5,7 +5,7 @@ import Product from "../components/Product";
 import { useGetProductsQuery } from "../slices/productsApiSlice";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import Paginate from "../components/Paginate";
 
 const HomeScreen = () => {
@@ -34,11 +34,16 @@ const HomeScreen = () => {
             ))}
           </Row>
           <Paginate
-          pages={data.pages}
-          page={data.page}
-          keyword={keyword ? keyword : ""}
+            pages={data.pages}
+            page={data.page}
+            keyword={keyword ? keyword : ""}
           />
         </>
+      )}
+      {keyword && (
+        <Link to="/" className="btn btn-light m-4">
+          Go Back!
+        </Link>
       )}
     </>
   );
