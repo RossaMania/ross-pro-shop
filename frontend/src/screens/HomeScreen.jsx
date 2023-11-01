@@ -7,6 +7,7 @@ import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { useParams, Link } from "react-router-dom";
 import Paginate from "../components/Paginate";
+import ProductCarousel from "../components/ProductCarousel";
 
 const HomeScreen = () => {
 
@@ -16,6 +17,13 @@ const HomeScreen = () => {
 
   return (
     <>
+      {!keyword ? (
+        <ProductCarousel />
+      ) : (
+        <Link to="/" className="btn btn-light m-4">
+          Go Back!
+        </Link>
+      )}
       {isLoading ? (
         <Loader />
       ) : error ? (
@@ -39,11 +47,6 @@ const HomeScreen = () => {
             keyword={keyword ? keyword : ""}
           />
         </>
-      )}
-      {keyword && (
-        <Link to="/" className="btn btn-light m-4">
-          Go Back!
-        </Link>
       )}
     </>
   );
