@@ -8,7 +8,7 @@ const SearchBox = () => {
   const [keyword, setKeyword] = useState(urlKeyword || "");
 
   const submitHandler = (event) => {
-    event.preventdefault();
+    event.preventDefault();
     if (keyword.trim()) {
       navigate(`/search/${keyword}`);
       console.log("Submitted search!");
