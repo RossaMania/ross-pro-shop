@@ -9,7 +9,12 @@ const SearchBox = () => {
 
   const submitHandler = (event) => {
     event.preventdefault();
-    console.log("Submitted search!")
+    if (keyword.trim()) {
+      navigate(`/search/${keyword}`);
+      console.log("Submitted search!");
+    } else {
+      navigate("/");
+    }
   }
   return (
     <Form onSubmit={submitHandler} className="d-flex">
