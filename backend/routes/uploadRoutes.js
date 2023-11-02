@@ -13,28 +13,39 @@ const storage = multer.diskStorage({
   }
 });
 
-const checkFileType = (file, cb) => {
-  const filetypes = /jpg|jpeg|png/; // The filetypes we want to allow.
+const fileFilter = (file, cb) => {
+  const filetypes = /jpg|jpeg|png|webp/; // The filetypes we want to allow.
+  const mimetypes = /image\/jpg|image\/jpeg|image\/png|image\/webp/; // The mimetypes we want to allow.
+
   const extname = filetypes.test(path.extname(file.originalname).toLowerCase()); // Check the file extension name.
-  const mimetype = filetypes.test(file.mimetype); // Check the file mimetype (the type of file) to see if it matches the filetypes we want to allow.
+  const mimetype = mimetypes.test(file.mimetype); // Check the file mimetype (the type of file) to see if it matches the filetypes we want to allow.
+
+
   // If the file extension name and the file mimetype match the filetypes we want to allow, return true.
   if (extname && mimetype) {
-    return cb(null, true);
+    cb(null, true);
   } else {
-    cb("Oops! Images only!"); //If the file is not an image, return an error message.
+    cb(new Error("Oops! Images only!"), false); //If the file is not an image, return an error message.
   }
 }
 
 // The upload object is the multer object that we will use to upload the image.
 const upload = multer({
-  storage,
-})
+  storage, fileFilter
+});
 
-// This is the route. The upload.single() method is a middleware that will accept a single file with the name image.
-router.post("/", upload.single("image"), (req, res) => {
-  res.send({
-    message: "Yay! Image uploaded!", // A message to send back to the frontend.
-    image: `/${req.file.path}` // The path to the image.
+const uploadSingleImage = upload.single("image"); // The upload.single() method is a middleware that will accept a single file with the name image.
+
+router.post("/", (req, res) => {
+  uploadSingleImage(req, res, function (err) {
+    if (err) {
+      res.status(400).send({ message: err.message});
+    }
+
+    res.status(200).send({
+      message: "Image uploaded successfully",
+      image: `/${req.file.path}`,
+    });
   });
 });
 
