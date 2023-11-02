@@ -8,7 +8,12 @@ const Meta = ({ title, description, keywords }) => {
       <meta name="description" content={description} />
       <meta name="keywords" content={keywords}/>
     </Helmet>
-  )
-}
+  );
+};
 
+Meta.defaultProps = {
+  title: "Welcome to Ross Proshop!",
+  description: "We sell stuff!",
+  keywords: "electronics, buy electronics, cheap electronics",
+};
 export default Meta
