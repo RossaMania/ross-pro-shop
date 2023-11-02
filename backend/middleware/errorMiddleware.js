@@ -14,13 +14,6 @@ let statusCode = res.statusCode === 200 ? 500 : res.statusCode;
 let message = err.message;
 
 
-//Check for Mongoose bad ObjectId
-
-if (err.name === "CastError" && err.kind === "ObjectId") {
-  message = "Resource not found!";
-  statusCode = 404;
-}
-
 //Final response by passing in statusCode
 
 res.status(statusCode).json({
