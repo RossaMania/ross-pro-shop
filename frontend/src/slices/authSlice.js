@@ -15,11 +15,11 @@ const authSlice = createSlice({
       state.userInfo = action.payload;
       localStorage.setItem("userInfo", JSON.stringify(action.payload));
     },
-    logout: (state) => {
+    logout: (state, action) => {
       //Set the userInfo part of the state to null, and remove from localStorage.
       // We don't need to pass in the action because we are not using the payload.
       state.userInfo = null;
-      localStorage.removeItem("userInfo");
+      localStorage.clear();
     }
   }
 })
