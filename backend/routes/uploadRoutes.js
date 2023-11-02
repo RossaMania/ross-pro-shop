@@ -25,7 +25,7 @@ const fileFilter = (file, cb) => {
   if (extname && mimetype) {
     cb(null, true);
   } else {
-    cb(new Error("Oops! Images only!"), false); //If the file is not an image, return an error message.
+    cb(new Error("Oops! Only image files!"), false); //If the file is not an image, return an error message.
   }
 }
 
