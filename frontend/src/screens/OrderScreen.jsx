@@ -88,7 +88,7 @@ const OrderScreen = () => {
   const onApprove = (data, actions) => {
     return actions.order.capture().then(async function (details) { //This triggers PayPal to capture the funds from the transaction.
       try {
-        await payOrder({ orderId, details }); //Pay for the order with the payOrder function from the usePayOrderMutation.
+        await payOrder({ orderId, details }).unwrap(); //Pay for the order with the payOrder function from the usePayOrderMutation.
         refetch(); //Once the order is paid for, refetch the order details.
         toast.success("Yay! Payment successful!"); //Show a success message.
       } catch (error) {
