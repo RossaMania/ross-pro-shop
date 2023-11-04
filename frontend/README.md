@@ -22,10 +22,11 @@ This is a full stack application using the MERN stack. This is an eCommerce app 
 
 ### React Redux!
 - Full-featured shopping cart with quantity
-- Managing global state with Redux (Actions & Reducers)
-- Using Redux state in components (useDispatch & useSelector)
+- Global state managed with Redux (Actions & Reducers)
+- Redux state used in components (useDispatch & useSelector)
 
 ### Plus, Admin Features!
+- Admin area to manage customers, products & orders
 - Admin product management
 - Admin user management
 - Admin Order details page
