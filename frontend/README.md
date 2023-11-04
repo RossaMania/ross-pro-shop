@@ -1,12 +1,31 @@
-# Getting Started with Create React App
+# Ross Pro Shop
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). This project was built with the MERN From Scratch 2023 | eCommerce Platform course taught by Brad Traversy of Traversy Media on Udemy.
+
+## Overview
+
+This is a full stack application using the MERN stack. This is an eCommerce app that includes products, orders, and user authentication! I wanted to learn how to build a project from back to front, and building this app with this course helped!
+
+## Features
+
+- Full-featured shopping cart with quantity
+- Product reviews and ratings
+- Styling with Bootstrap
+- Checkout process (shipping, payment method, etc)
+- PayPal / credit card integration
+- JWT authentication (JSON web tokens) with HTTP-Only cookie
+
+## Plus, Admin Features!
+- Admin product management
+- Admin user management
+- Admin Order details page
+- Mark orders as delivered option
 
 ## Available Scripts
 
 In the project directory, you can run:
 
-### `npm start`
+### `npm run dev`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
