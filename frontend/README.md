@@ -2,6 +2,8 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). This project was built with the MERN From Scratch 2023 | eCommerce Platform course taught by Brad Traversy of Traversy Media on Udemy.
 
+Here is the Udemy website [for the course](https://www.udemy.com/course/mern-ecommerce/learn/lecture/38105894?start=15#overview).
+
 ## Overview
 
 This is a full stack application using the MERN stack. This is an eCommerce app that includes products, orders, and user authentication! I wanted to learn how to build a project from back to front, and building this app with this course helped!
