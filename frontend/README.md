@@ -17,7 +17,7 @@ This is a full stack application using the MERN stack. This is an eCommerce app 
 - PayPal / credit card integration
 - JWT authentication (JSON web tokens) with HTTP-Only cookie
 
-### Bootstrap Stylings!
+### Bootstrap Styling!
 - Top products carousel
 - React-Bootstrap UI library
 - React-Router Bootstrap library
