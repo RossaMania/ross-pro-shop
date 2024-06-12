@@ -1,3 +1,5 @@
+Thank you for checking out my project! Connect with me on LinkedIn! https://www.linkedin.com/in/ross-clettenberg/
+
 # Ross Pro Shop
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). This project was built with the MERN From Scratch 2023 | eCommerce Platform course taught by Brad Traversy of Traversy Media on Udemy.
