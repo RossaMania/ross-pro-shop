@@ -2,7 +2,7 @@ import React from 'react'
 import { Outlet, Navigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 
-//This component is for routes or pages that require the user to register for an account, and be logged in. 
+//This component is for routes or pages that require the user to register for an account, and be logged in.
 //We don't want regular users to be able to access these pages.
 const PrivateRoute = () => {
 
